@@ -69,10 +69,12 @@ Resources:
         lifespan=lifespan,
     )
 
+    from porkbun_mcp.prompts import register_prompts
     from porkbun_mcp.resources import register_resources
     from porkbun_mcp.tools import register_tools
 
     register_tools(mcp, settings)
     register_resources(mcp)
+    register_prompts(mcp)
 
     return mcp
