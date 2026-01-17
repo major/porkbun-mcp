@@ -1,0 +1,95 @@
+[project]
+name = "porkbun-mcp"
+version = "0.1.0"
+description = "MCP server for Porkbun DNS API"
+readme = "README.md"
+license = "MIT"
+authors = [{ name = "Major Hayden", email = "major@mhtx.net" }]
+requires-python = ">=3.14"
+keywords = ["mcp", "porkbun", "dns", "model-context-protocol"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Internet :: Name Service (DNS)",
+    "Typing :: Typed",
+]
+dependencies = ["fastmcp>=2.14.3", "oinker>=0.1.1", "pydantic-settings>=2.0.0"]
+
+[project.urls]
+Homepage = "https://github.com/major/porkbun-mcp"
+Repository = "https://github.com/major/porkbun-mcp"
+
+[project.scripts]
+porkbun-mcp = "porkbun_mcp:main"
+
+[build-system]
+requires = ["uv_build>=0.9.18"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "pytest>=8",
+    "pytest-cov>=6",
+    "pytest-asyncio>=0.25",
+    "respx>=0.22",
+    "ty>=0.0.12",
+    "ruff>=0.9",
+    "radon>=6",
+    "mkdocs>=1.6",
+    "mkdocs-material>=9",
+    "mkdocstrings[python]>=0.29",
+    "pytest-randomly>=4.0.1",
+]
+
+[tool.uv.build-backend]
+module-name = "porkbun_mcp"
+
+[tool.ruff]
+target-version = "py314"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "ASYNC", "D"]
+ignore = [
+    "D100", # Missing docstring in public module
+    "D104", # Missing docstring in public package
+    "D105", # Missing docstring in magic method
+    "D107", # Missing docstring in __init__
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = ["D"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+testpaths = ["tests"]
+addopts = "--cov=porkbun_mcp --cov-report=term-missing"
+
+[tool.coverage.run]
+source = ["src/porkbun_mcp"]
+branch = true
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "if TYPE_CHECKING:",
+    "raise NotImplementedError",
+]
+
+[tool.ty.environment]
+python-version = "3.14"
+python-platform = "linux"
+extra-paths = ["src"]
+
+[tool.pyright]
+pythonVersion = "3.14"
+pythonPlatform = "Linux"
+venvPath = "."
+venv = ".venv"
+typeCheckingMode = "standard"

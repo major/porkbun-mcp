@@ -1,0 +1,51 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    ":separateMajorReleases",
+    ":combinePatchMinorReleases",
+    ":enableVulnerabilityAlertsWithLabel('security')",
+    ":semanticCommits",
+    ":automergeMinor",
+    ":automergeDigest",
+    "group:allNonMajor"
+  ],
+  "labels": [
+    "dependencies"
+  ],
+  "packageRules": [
+    {
+      "description": "Group all dev dependency updates",
+      "matchDepTypes": [
+        "devDependencies"
+      ],
+      "groupName": "dev dependencies"
+    },
+    {
+      "description": "Automerge non-major updates for trusted packages",
+      "matchPackageNames": [
+        "ruff",
+        "pytest",
+        "pytest-cov",
+        "pytest-asyncio",
+        "ty"
+      ],
+      "automerge": true
+    },
+    {
+      "description": "Require approval for major updates",
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "automerge": false
+    }
+  ],
+  "pep621": {
+    "managerFilePatterns": [
+      "/pyproject\\.toml$/"
+    ]
+  },
+  "schedule": [
+    "before 6am on monday"
+  ]
+}
