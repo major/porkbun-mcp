@@ -89,6 +89,7 @@ Thumbs.db
 # Project specific
 *.log
 .uv/
+opencode.json
 
 # Documentation
 site/
