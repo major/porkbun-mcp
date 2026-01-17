@@ -53,18 +53,39 @@ def create_server() -> FastMCP:
 
     mcp = FastMCP(
         name="porkbun",
-        instructions=f"""Porkbun DNS MCP Server
+        instructions=f"""Porkbun DNS MCP Server - {mode_desc}
 
-{mode_desc}
+## Quick Start
+Use prompts for guided workflows, or tools for specific operations.
 
-Manage DNS records and domains on Porkbun. Use tools for specific operations
-or browse resources for read-only data access.
+## Common Workflows
 
-Resources:
-- porkbun://domains - List all domains
-- porkbun://dns/{{domain}} - DNS records for a domain
+### View/List Operations
+- domains_list: See all your domains
+- dns_list(domain): View all DNS records for a domain
+- dns_get_by_name_type(domain, type, subdomain): Find specific records
+
+### DNS Record Management {"(ENABLED)" if settings.get_muddy else "(requires --get-muddy)"}
+- dns_create: Add new A, AAAA, MX, TXT, CNAME, etc.
+- dns_edit_by_name_type: Update records by subdomain+type (easiest)
+- dns_edit: Update by record ID (when you have the ID)
+- dns_delete_by_name_type: Delete by subdomain+type
+- dns_delete: Delete by record ID
+
+### Common Tasks
+- Point www to IP: dns_create(domain, "A", "1.2.3.4", name="www")
+- Update root A record: dns_edit_by_name_type(domain, "A", content="new-ip")
+- Add TXT record: dns_create(domain, "TXT", "v=spf1 include:...")
+
+## Resources (read-only browsing)
+- porkbun://domains - All domains
+- porkbun://dns/{{domain}} - DNS records
 - porkbun://ssl/{{domain}} - SSL certificate bundle
 - porkbun://pricing - TLD pricing
+
+## Advanced Tools
+DNSSEC, glue records, and URL forwards are for specialized use cases.
+Use dnssec_*, domains_*_glue_record, or domains_*_url_forward only when needed.
 """,
         lifespan=lifespan,
     )
