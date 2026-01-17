@@ -81,6 +81,8 @@ For write operations, add `"args": ["--get-muddy"]`.
 - `dns_create` - Create a new DNS record *
 - `dns_edit` - Edit a DNS record by ID *
 - `dns_delete` - Delete a DNS record by ID *
+- `dns_edit_by_name_type` - Edit DNS records by subdomain and type *
+- `dns_delete` - Delete a DNS record by ID *
 - `dns_delete_by_name_type` - Delete DNS records by subdomain and type *
 
 ### Domains
@@ -122,6 +124,16 @@ Browse data via MCP resources:
 - `porkbun://dns/{domain}` - DNS records for a domain
 - `porkbun://ssl/{domain}` - SSL certificate bundle for a domain
 - `porkbun://pricing` - TLD pricing information
+
+## Prompts
+
+Pre-defined workflows to guide common DNS operations:
+
+- `dns_setup` - Set up basic DNS for a new server (root A + www records)
+- `dns_audit` - Audit DNS configuration for issues (duplicates, missing email records, low TTLs)
+- `email_dns_setup` - Configure email DNS (MX, SPF, DKIM, DMARC)
+- `update_server_ip` - Update DNS records when migrating to a new server IP
+- `subdomain_setup` - Create A/CNAME records for a new subdomain
 
 ## Development
 
