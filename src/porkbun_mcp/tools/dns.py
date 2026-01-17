@@ -69,7 +69,10 @@ def register_dns_tools(mcp: FastMCP, settings: PorkbunMCPSettings) -> None:
         domain: Annotated[str, Field(description="Domain name (e.g., 'example.com')")],
         record_id: Annotated[str, Field(description="DNS record ID")],
     ) -> DNSRecord:
-        """Get a specific DNS record by ID."""
+        """Get a specific DNS record by ID.
+
+        Use dns_get_by_name_type instead if you know the subdomain and type but not the ID.
+        """
         piglet = get_piglet(ctx)
 
         try:
@@ -94,7 +97,8 @@ def register_dns_tools(mcp: FastMCP, settings: PorkbunMCPSettings) -> None:
     ) -> list[DNSRecord]:
         """Get DNS records by subdomain and type.
 
-        Useful for finding specific records like 'www' A records or MX records.
+        Preferred over dns_get when you know the subdomain and record type.
+        Use dns_list to see all records if you're unsure what exists.
         """
         piglet = get_piglet(ctx)
 
@@ -154,7 +158,10 @@ def register_dns_tools(mcp: FastMCP, settings: PorkbunMCPSettings) -> None:
         ttl: Annotated[int, Field(ge=600, description="New TTL in seconds")] = 600,
         priority: Annotated[int | None, Field(ge=0, description="New priority")] = None,
     ) -> DNSRecordCreated:
-        """Edit a DNS record by ID. Requires --get-muddy mode."""
+        """Edit a DNS record by ID. Requires --get-muddy mode.
+
+        Use dns_edit_by_name_type instead if you know the subdomain and type but not the ID.
+        """
         require_write_mode(ctx)
         record_cls = _get_dns_record_class(record_type)
         piglet = get_piglet(ctx)
@@ -188,8 +195,8 @@ def register_dns_tools(mcp: FastMCP, settings: PorkbunMCPSettings) -> None:
     ) -> DNSRecordDeleted:
         """Edit all DNS records matching subdomain and type. Requires --get-muddy mode.
 
-        Useful when you don't have the record ID but know the subdomain and type.
-        All matching records will be updated with the new content.
+        Preferred over dns_edit when you don't have the record ID.
+        Updates all matching records with the new content.
         """
         require_write_mode(ctx)
         piglet = get_piglet(ctx)
@@ -220,7 +227,10 @@ def register_dns_tools(mcp: FastMCP, settings: PorkbunMCPSettings) -> None:
         domain: Annotated[str, Field(description="Domain name (e.g., 'example.com')")],
         record_id: Annotated[str, Field(description="DNS record ID to delete")],
     ) -> DNSRecordDeleted:
-        """Delete a DNS record by ID. Requires --get-muddy mode."""
+        """Delete a DNS record by ID. Requires --get-muddy mode.
+
+        Use dns_delete_by_name_type instead if you know the subdomain and type but not the ID.
+        """
         require_write_mode(ctx)
         piglet = get_piglet(ctx)
 
@@ -237,7 +247,10 @@ def register_dns_tools(mcp: FastMCP, settings: PorkbunMCPSettings) -> None:
         record_type: Annotated[str, Field(description="DNS record type")],
         subdomain: Annotated[str | None, Field(description="Subdomain (None for root)")] = None,
     ) -> DNSRecordDeleted:
-        """Delete DNS records by subdomain and type. Requires --get-muddy mode."""
+        """Delete DNS records by subdomain and type. Requires --get-muddy mode.
+
+        Preferred over dns_delete when you don't have the record ID.
+        """
         require_write_mode(ctx)
         piglet = get_piglet(ctx)
 
