@@ -28,6 +28,12 @@
           "description": "Porkbun secret key",
           "isRequired": true,
           "format": "string"
+        },
+        {
+          "name": "PORKBUN_GET_MUDDY",
+          "description": "Enable write operations (default: false for read-only mode)",
+          "isRequired": false,
+          "format": "boolean"
         }
       ]
     }
