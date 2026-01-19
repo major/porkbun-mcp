@@ -22,3 +22,7 @@ class PorkbunMCPSettings(BaseSettings):
 
     api_key: str = Field(default="", description="Porkbun API key")
     secret_key: str = Field(default="", description="Porkbun secret key")
+    get_muddy: bool = Field(
+        default=False,
+        description="Enable write operations (create/edit/delete). Default is read-only.",
+    )
