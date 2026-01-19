@@ -1,0 +1,22 @@
+name: Commit Lint
+
+on:
+  pull_request:
+
+jobs:
+  commitlint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v7
+
+      - name: Install commitizen
+        run: uv tool install commitizen
+
+      - name: Validate commits
+        run: cz check --rev-range origin/${{ github.base_ref }}..HEAD
