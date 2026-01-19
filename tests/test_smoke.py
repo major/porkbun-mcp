@@ -59,6 +59,7 @@ class TestReadOnlyModeIntegration:
             result = await client.call_tool(
                 "dns_create",
                 {"domain": "example.com", "record_type": "A", "content": "192.0.2.1"},
+                raise_on_error=False,
             )
 
             assert result.is_error
@@ -74,6 +75,7 @@ class TestReadOnlyModeIntegration:
             result = await client.call_tool(
                 "dns_create",
                 {"domain": "example.com", "record_type": "A", "content": "192.0.2.1"},
+                raise_on_error=False,
             )
 
             if result.is_error:
