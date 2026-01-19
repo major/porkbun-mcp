@@ -1,4 +1,4 @@
-.PHONY: all lint format format-check typecheck test test-cov check fix clean complexity docstyle docs docs-build
+.PHONY: all lint format format-check typecheck test test-cov smoke check fix clean complexity docstyle docs docs-build
 
 all: check
 
@@ -19,6 +19,9 @@ test:
 
 test-cov:
 	uv run pytest --cov-report=html
+
+smoke:
+	uv run pytest tests/test_smoke.py -v
 
 check: lint format-check typecheck test
 
