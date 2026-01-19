@@ -238,7 +238,8 @@ def mock_piglet() -> AsyncMock:
 
 ## Environment Variables
 
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `PORKBUN_API_KEY` | Porkbun API key | (required) |
-| `PORKBUN_SECRET_KEY` | Porkbun secret key | (required) |
+| Variable             | Description                 | Default             |
+| -------------------- | --------------------------- | ------------------- |
+| `PORKBUN_API_KEY`    | Porkbun API key             | (required)          |
+| `PORKBUN_SECRET_KEY` | Porkbun secret key          | (required)          |
+| `PORKBUN_GET_MUDDY`  | Enable write operations     | `false` (read-only) |
