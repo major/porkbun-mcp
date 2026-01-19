@@ -6,7 +6,7 @@ from fastmcp import Context
 from fastmcp.exceptions import ToolError
 from pydantic import Field
 
-from porkbun_mcp.context import get_piglet
+from porkbun_mcp.context import get_piglet, require_writes
 from porkbun_mcp.errors import handle_oinker_error
 from porkbun_mcp.models import DNSRecordDeleted, DNSSECRecord
 
@@ -49,6 +49,7 @@ def register_dnssec_tools(mcp: "FastMCP") -> None:
         digest: Annotated[str, Field(description="Digest value")],
     ) -> DNSSECRecord:
         """Create a DNSSEC record."""
+        require_writes(ctx)
         piglet = get_piglet(ctx)
 
         try:
@@ -79,6 +80,7 @@ def register_dnssec_tools(mcp: "FastMCP") -> None:
         key_tag: Annotated[str, Field(description="DNSSEC key tag to delete")],
     ) -> DNSRecordDeleted:
         """Delete a DNSSEC record."""
+        require_writes(ctx)
         piglet = get_piglet(ctx)
 
         try:
