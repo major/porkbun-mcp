@@ -1,0 +1,168 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  ci:
+    uses: ./.github/workflows/ci.yml
+
+  release:
+    name: Commitizen Release
+    runs-on: ubuntu-latest
+    needs: ci
+    # Prevent infinite loop from bump commits
+    if: "!startsWith(github.event.head_commit.message, 'bump:')"
+    concurrency:
+      group: release-${{ github.ref_name }}
+      cancel-in-progress: false
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+
+      - name: Force branch to workflow sha
+        run: git reset --hard ${{ github.sha }}
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v7
+
+      - name: Install commitizen
+        run: uv tool install commitizen
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Bump version and create changelog
+        id: bump
+        run: |
+          # Try to bump; if no commits warrant a bump, exit gracefully
+          if cz bump --changelog --yes 2>&1 | tee bump_output.txt; then
+            echo "released=true" >> $GITHUB_OUTPUT
+            echo "version=$(cz version -p)" >> $GITHUB_OUTPUT
+            echo "tag=v$(cz version -p)" >> $GITHUB_OUTPUT
+          else
+            if grep -q "NoneIncrementExit" bump_output.txt; then
+              echo "No version bump needed"
+              echo "released=false" >> $GITHUB_OUTPUT
+            else
+              cat bump_output.txt
+              exit 1
+            fi
+          fi
+
+      - name: Push changes
+        if: steps.bump.outputs.released == 'true'
+        run: |
+          git push origin ${{ github.ref_name }}
+          git push origin --tags
+
+      - name: Create GitHub Release
+        if: steps.bump.outputs.released == 'true'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.bump.outputs.tag }}
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    outputs:
+      released: ${{ steps.bump.outputs.released || 'false' }}
+      version: ${{ steps.bump.outputs.version }}
+      tag: ${{ steps.bump.outputs.tag }}
+
+  pypi:
+    name: Publish to PyPI
+    runs-on: ubuntu-latest
+    needs: release
+    if: needs.release.outputs.released == 'true'
+
+    permissions:
+      id-token: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ needs.release.outputs.tag }}
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v7
+
+      - name: Build package
+        run: uv build
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+
+  pypi-tag:
+    name: Publish to PyPI (tag)
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+
+    permissions:
+      id-token: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.ref }}
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v7
+
+      - name: Build package
+        run: uv build
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+
+  mcp-registry:
+    name: Publish to MCP Registry
+    runs-on: ubuntu-latest
+    needs: [release, pypi]
+    if: needs.release.outputs.released == 'true'
+
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ needs.release.outputs.tag }}
+
+      - name: Update server.json version
+        run: |
+          VERSION=${{ needs.release.outputs.version }}
+          jq --arg v "$VERSION" '.version = $v | .packages[0].version = $v' server.json > server.tmp
+          mv server.tmp server.json
+          cat server.json
+
+      - name: Install mcp-publisher
+        run: |
+          curl -L "https://github.com/modelcontextprotocol/registry/releases/latest/download/mcp-publisher_$(uname -s | tr '[:upper:]' '[:lower:]')_$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/').tar.gz" | tar xz mcp-publisher
+
+      - name: Authenticate to MCP Registry
+        run: ./mcp-publisher login github-oidc
+
+      - name: Publish to MCP Registry
+        run: ./mcp-publisher publish

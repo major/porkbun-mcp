@@ -2,19 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+This project uses [Semantic Versioning](https://semver.org/) and [Conventional Commits](https://www.conventionalcommits.org/).
 
-## [Unreleased]
+## v0.1.0 (unreleased)
 
-### Added
+### Feat
 
-- Initial release
-- MCP tools for DNS record management (list, get, create, edit, delete)
-- MCP tools for domain management (nameservers, URL forwarding, glue records)
-- MCP tools for DNSSEC management
-- MCP tools for SSL certificate retrieval
-- MCP tools for TLD pricing
-- MCP resources for browsing data (`porkbun://domains`, `porkbun://dns/{domain}`, etc.)
-
-- Documentation with MkDocs Material theme
+- add MCP tools for DNS record management (list, get, create, edit, delete)
+- add MCP tools for domain management (nameservers, URL forwarding, glue records)
+- add MCP tools for DNSSEC management
+- add MCP tools for SSL certificate retrieval
+- add MCP tools for TLD pricing
+- add MCP resources for browsing data (domains, DNS records, SSL certs, pricing)
+- add MCP prompts for common DNS workflows
+- add documentation with MkDocs Material theme

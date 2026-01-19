@@ -7,7 +7,7 @@ Manage DNS records, domains, DNSSEC, SSL certificates, and more via the Model Co
 [![CI](https://github.com/major/porkbun-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/major/porkbun-mcp/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/major/porkbun-mcp/branch/main/graph/badge.svg)](https://codecov.io/gh/major/porkbun-mcp)
 [![PyPI version](https://badge.fury.io/py/porkbun-mcp.svg)](https://pypi.org/project/porkbun-mcp/)
-[![Python 3.14+](https://img.shields.io/badge/python-3.14+-blue.svg)](https://www.python.org/downloads/)
+[![Python 3.13+](https://img.shields.io/badge/python-3.13+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## Installation
@@ -145,3 +145,5 @@ make test       # pytest with coverage
 ## License
 
 MIT
+
+<!-- mcp-name: io.github.major/porkbun -->
