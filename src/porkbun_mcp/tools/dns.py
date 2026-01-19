@@ -40,7 +40,7 @@ def _to_dns_record(r: Any) -> DNSRecord:
     )
 
 
-def register_dns_tools(mcp: FastMCP) -> None:
+def register_dns_tools(mcp: "FastMCP") -> None:
     """Register DNS tools with the MCP server."""
 
     @mcp.tool(annotations={"readOnlyHint": True})

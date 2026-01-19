@@ -8,7 +8,7 @@ if TYPE_CHECKING:
     from fastmcp import FastMCP
 
 
-def register_resources(mcp: FastMCP) -> None:
+def register_resources(mcp: "FastMCP") -> None:
     """Register all resources with the MCP server.
 
     Args:

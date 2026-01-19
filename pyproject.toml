@@ -59,6 +59,7 @@ ignore = [
     "D104", # Missing docstring in public package
     "D105", # Missing docstring in magic method
     "D107", # Missing docstring in __init__
+    "UP037", # Quoted type annotations - needed for FastMCP/Pydantic compatibility
 ]
 
 [tool.ruff.lint.per-file-ignores]

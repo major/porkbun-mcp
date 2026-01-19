@@ -8,7 +8,7 @@ if TYPE_CHECKING:
     from fastmcp import FastMCP
 
 
-def register_tools(mcp: FastMCP) -> None:
+def register_tools(mcp: "FastMCP") -> None:
     """Register all tools with the MCP server."""
     from porkbun_mcp.tools.dns import register_dns_tools
     from porkbun_mcp.tools.dnssec import register_dnssec_tools

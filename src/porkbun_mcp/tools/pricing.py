@@ -22,7 +22,7 @@ def _to_tld_pricing(tld: str, p: Any) -> TLDPricing:
     )
 
 
-def register_pricing_tools(mcp: FastMCP) -> None:
+def register_pricing_tools(mcp: "FastMCP") -> None:
     """Register pricing tools with the MCP server."""
 
     @mcp.tool(annotations={"readOnlyHint": True})

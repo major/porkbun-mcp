@@ -14,7 +14,7 @@ if TYPE_CHECKING:
     from fastmcp import FastMCP
 
 
-def register_dnssec_tools(mcp: FastMCP) -> None:
+def register_dnssec_tools(mcp: "FastMCP") -> None:
     """Register DNSSEC tools with the MCP server."""
 
     @mcp.tool(annotations={"readOnlyHint": True})

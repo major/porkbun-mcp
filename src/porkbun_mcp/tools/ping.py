@@ -12,7 +12,7 @@ if TYPE_CHECKING:
     from fastmcp import FastMCP
 
 
-def register_ping_tools(mcp: FastMCP) -> None:
+def register_ping_tools(mcp: "FastMCP") -> None:
     """Register ping tools with the MCP server."""
 
     @mcp.tool(annotations={"readOnlyHint": True})

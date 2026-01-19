@@ -13,7 +13,7 @@ if TYPE_CHECKING:
     from fastmcp import FastMCP
 
 
-def register_ssl_resources(mcp: FastMCP) -> None:
+def register_ssl_resources(mcp: "FastMCP") -> None:
     """Register SSL resources with the MCP server."""
 
     @mcp.resource("porkbun://ssl/{domain}", annotations={"readOnlyHint": True})
