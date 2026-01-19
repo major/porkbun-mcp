@@ -59,6 +59,25 @@ porkbun-mcp
 porkbun-mcp --transport sse
 ```
 
+## Read-Only Mode
+
+By default, porkbun-mcp runs in **read-only mode** for safety. Write operations
+(create, edit, delete) are blocked until explicitly enabled.
+
+To enable writes:
+
+```bash
+# Via environment variable
+export PORKBUN_GET_MUDDY=true
+porkbun-mcp
+
+# Via CLI flag
+porkbun-mcp --get-muddy
+```
+
+Update your MCP client configuration to include `--get-muddy` in args if you
+need write operations.
+
 ## Verify Setup
 
 Test your connection with the `ping` tool. It will return your public IP address if credentials are valid.
