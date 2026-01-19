@@ -27,10 +27,7 @@ def register_pricing_tools(mcp: FastMCP) -> None:
 
     @mcp.tool()
     async def pricing_get(ctx: Context) -> list[TLDPricing]:  # noqa: ARG001
-        """Get pricing for all available TLDs.
-
-        Returns registration, renewal, and transfer prices for each TLD.
-        """
+        """Get pricing for all available TLDs."""
         try:
             pricing_dict = await get_pricing()
             return [_to_tld_pricing(tld, p) for tld, p in pricing_dict.items()]

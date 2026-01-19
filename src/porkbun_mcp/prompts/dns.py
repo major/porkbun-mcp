@@ -28,8 +28,6 @@ def register_dns_prompts(mcp: FastMCP) -> None:
 
 Domain: {domain}
 Server IP: {server_ip}
-
-Note: Creating/editing records requires --get-muddy mode.
 """
 
     @mcp.prompt
@@ -75,7 +73,6 @@ Domain: {domain}
 Provider: {provider}
 
 Note: Get exact records from your email provider's documentation.
-Requires --get-muddy mode for write operations.
 """
 
     @mcp.prompt
@@ -96,8 +93,7 @@ Requires --get-muddy mode for write operations.
 Old IP: {old_ip}
 New IP: {new_ip}
 
-Note: Requires --get-muddy mode for write operations.
-Consider lowering TTL before migration, then raising it after.
+Tip: Lower TTL before migration, then raise it after.
 """
 
     @mcp.prompt
@@ -118,6 +114,4 @@ Consider lowering TTL before migration, then raising it after.
 
 Subdomain: {subdomain}.{domain}
 Target: {target}
-
-Note: Requires --get-muddy mode.
 """

@@ -16,5 +16,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - MCP tools for SSL certificate retrieval
 - MCP tools for TLD pricing
 - MCP resources for browsing data (`porkbun://domains`, `porkbun://dns/{domain}`, etc.)
-- Read-only mode by default, `--get-muddy` flag for write operations
+
 - Documentation with MkDocs Material theme

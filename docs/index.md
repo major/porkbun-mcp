@@ -6,7 +6,6 @@ Manage DNS records, domains, DNSSEC, SSL certificates, and more via the Model Co
 
 ## Features
 
-- **Read-only by default** - Write operations require `--get-muddy` flag
 - **Full DNS management** - Create, edit, delete DNS records
 - **Domain tools** - Nameservers, URL forwarding, glue records
 - **DNSSEC support** - Manage DNSSEC records
@@ -29,13 +28,8 @@ export PORKBUN_SECRET_KEY="sk1_..."
 Run the server:
 
 ```bash
-porkbun-mcp              # Read-only mode
-porkbun-mcp --get-muddy  # Enable write operations
+porkbun-mcp
 ```
-
-## Why "Get Muddy"?
-
-Porkbun's mascot is a pig. Pigs love mud. When you enable write operations, you're ready to get your hands dirty and make changes to your DNS records.
 
 ## Requirements
 

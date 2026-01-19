@@ -6,7 +6,7 @@ from fastmcp import Context
 from fastmcp.exceptions import ToolError
 from pydantic import Field
 
-from porkbun_mcp.context import get_piglet, require_write_mode
+from porkbun_mcp.context import get_piglet
 from porkbun_mcp.errors import handle_oinker_error
 from porkbun_mcp.models import (
     DomainAvailability,
@@ -20,8 +20,6 @@ from porkbun_mcp.models import (
 
 if TYPE_CHECKING:
     from fastmcp import FastMCP
-
-    from porkbun_mcp.config import PorkbunMCPSettings
 
 from typing import Any
 
@@ -40,7 +38,7 @@ def _to_domain_info(d: Any) -> DomainInfo:
     )
 
 
-def register_domain_tools(mcp: FastMCP, settings: PorkbunMCPSettings) -> None:
+def register_domain_tools(mcp: FastMCP) -> None:
     """Register domain tools with the MCP server."""
 
     @mcp.tool()
@@ -74,8 +72,7 @@ def register_domain_tools(mcp: FastMCP, settings: PorkbunMCPSettings) -> None:
         domain: Annotated[str, Field(description="Domain name (e.g., 'example.com')")],
         nameservers: Annotated[list[str], Field(description="List of nameservers")],
     ) -> Nameservers:
-        """Update nameservers for a domain. Requires --get-muddy mode."""
-        require_write_mode(ctx)
+        """Update nameservers for a domain."""
         piglet = get_piglet(ctx)
 
         try:
@@ -120,8 +117,7 @@ def register_domain_tools(mcp: FastMCP, settings: PorkbunMCPSettings) -> None:
         include_path: Annotated[bool, Field(description="Include URI path in redirect")] = False,
         wildcard: Annotated[bool, Field(description="Forward all subdomains")] = False,
     ) -> URLForwardCreated:
-        """Add a URL forwarding rule. Requires --get-muddy mode."""
-        require_write_mode(ctx)
+        """Add a URL forwarding rule."""
         piglet = get_piglet(ctx)
 
         try:
@@ -147,8 +143,7 @@ def register_domain_tools(mcp: FastMCP, settings: PorkbunMCPSettings) -> None:
         domain: Annotated[str, Field(description="Domain name (e.g., 'example.com')")],
         forward_id: Annotated[str, Field(description="URL forward ID to delete")],
     ) -> URLForwardCreated:
-        """Delete a URL forwarding rule. Requires --get-muddy mode."""
-        require_write_mode(ctx)
+        """Delete a URL forwarding rule."""
         piglet = get_piglet(ctx)
 
         try:
@@ -204,8 +199,7 @@ def register_domain_tools(mcp: FastMCP, settings: PorkbunMCPSettings) -> None:
         subdomain: Annotated[str, Field(description="Subdomain for the nameserver (e.g., 'ns1')")],
         ips: Annotated[list[str], Field(description="List of IP addresses (IPv4 and/or IPv6)")],
     ) -> GlueRecordCreated:
-        """Create a glue record for self-hosted nameservers. Requires --get-muddy mode."""
-        require_write_mode(ctx)
+        """Create a glue record for self-hosted nameservers."""
         piglet = get_piglet(ctx)
 
         try:
@@ -224,8 +218,7 @@ def register_domain_tools(mcp: FastMCP, settings: PorkbunMCPSettings) -> None:
         subdomain: Annotated[str, Field(description="Subdomain for the nameserver (e.g., 'ns1')")],
         ips: Annotated[list[str], Field(description="New list of IP addresses (replaces all)")],
     ) -> GlueRecordCreated:
-        """Update a glue record's IP addresses. Requires --get-muddy mode."""
-        require_write_mode(ctx)
+        """Update a glue record's IP addresses."""
         piglet = get_piglet(ctx)
 
         try:
@@ -243,8 +236,7 @@ def register_domain_tools(mcp: FastMCP, settings: PorkbunMCPSettings) -> None:
         domain: Annotated[str, Field(description="Domain name (e.g., 'example.com')")],
         subdomain: Annotated[str, Field(description="Subdomain of the glue record to delete")],
     ) -> GlueRecordCreated:
-        """Delete a glue record. Requires --get-muddy mode."""
-        require_write_mode(ctx)
+        """Delete a glue record."""
         piglet = get_piglet(ctx)
 
         try:

@@ -6,17 +6,15 @@ from fastmcp import Context
 from fastmcp.exceptions import ToolError
 from pydantic import Field
 
-from porkbun_mcp.context import get_piglet, require_write_mode
+from porkbun_mcp.context import get_piglet
 from porkbun_mcp.errors import handle_oinker_error
 from porkbun_mcp.models import DNSRecordDeleted, DNSSECRecord
 
 if TYPE_CHECKING:
     from fastmcp import FastMCP
 
-    from porkbun_mcp.config import PorkbunMCPSettings
 
-
-def register_dnssec_tools(mcp: FastMCP, settings: PorkbunMCPSettings) -> None:
+def register_dnssec_tools(mcp: FastMCP) -> None:
     """Register DNSSEC tools with the MCP server."""
 
     @mcp.tool()
@@ -50,8 +48,7 @@ def register_dnssec_tools(mcp: FastMCP, settings: PorkbunMCPSettings) -> None:
         digest_type: Annotated[str, Field(description="Digest type")],
         digest: Annotated[str, Field(description="Digest value")],
     ) -> DNSSECRecord:
-        """Create a DNSSEC record. Requires --get-muddy mode."""
-        require_write_mode(ctx)
+        """Create a DNSSEC record."""
         piglet = get_piglet(ctx)
 
         try:
@@ -81,8 +78,7 @@ def register_dnssec_tools(mcp: FastMCP, settings: PorkbunMCPSettings) -> None:
         domain: Annotated[str, Field(description="Domain name (e.g., 'example.com')")],
         key_tag: Annotated[str, Field(description="DNSSEC key tag to delete")],
     ) -> DNSRecordDeleted:
-        """Delete a DNSSEC record. Requires --get-muddy mode."""
-        require_write_mode(ctx)
+        """Delete a DNSSEC record."""
         piglet = get_piglet(ctx)
 
         try:

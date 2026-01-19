@@ -4,28 +4,25 @@ from __future__ import annotations
 
 from unittest.mock import AsyncMock, MagicMock
 
-import pytest
 from conftest import get_tool_fn, make_mock_domain
 from fastmcp import FastMCP
-from fastmcp.exceptions import ToolError
 
-from porkbun_mcp.config import PorkbunMCPSettings
-from porkbun_mcp.models import DomainAvailability, DomainInfo, Nameservers
+from porkbun_mcp.models import (
+    DomainAvailability,
+    DomainInfo,
+    GlueRecord,
+    GlueRecordCreated,
+    Nameservers,
+    URLForward,
+    URLForwardCreated,
+)
 from porkbun_mcp.tools.domains import register_domain_tools
 
 
-def _register_domains_readonly() -> tuple[FastMCP, PorkbunMCPSettings]:
+def _register_domains() -> FastMCP:
     mcp = FastMCP("test")
-    settings = PorkbunMCPSettings(api_key="test", secret_key="test", get_muddy=False)
-    register_domain_tools(mcp, settings)
-    return mcp, settings
-
-
-def _register_domains_write() -> tuple[FastMCP, PorkbunMCPSettings]:
-    mcp = FastMCP("test")
-    settings = PorkbunMCPSettings(api_key="test", secret_key="test", get_muddy=True)
-    register_domain_tools(mcp, settings)
-    return mcp, settings
+    register_domain_tools(mcp)
+    return mcp
 
 
 class TestDomainsList:
@@ -36,7 +33,7 @@ class TestDomainsList:
     ) -> None:
         """domains_list should return list of DomainInfo models."""
         mock_piglet.domains.list.return_value = [make_mock_domain()]
-        mcp, _ = _register_domains_readonly()
+        mcp = _register_domains()
         tool_fn = get_tool_fn(mcp, "domains_list")
 
         result = await tool_fn(mock_context)
@@ -58,7 +55,7 @@ class TestDomainsGetNameservers:
             "ns1.porkbun.com",
             "ns2.porkbun.com",
         ]
-        mcp, _ = _register_domains_readonly()
+        mcp = _register_domains()
         tool_fn = get_tool_fn(mcp, "domains_get_nameservers")
 
         result = await tool_fn(mock_context, domain="example.com")
@@ -71,29 +68,15 @@ class TestDomainsGetNameservers:
 class TestDomainsUpdateNameservers:
     """Tests for domains_update_nameservers tool."""
 
-    async def test_update_nameservers_blocked_without_get_muddy(
-        self, mock_context: MagicMock
-    ) -> None:
-        """domains_update_nameservers should raise ToolError without --get-muddy."""
-        mcp, _ = _register_domains_readonly()
-        tool_fn = get_tool_fn(mcp, "domains_update_nameservers")
-
-        with pytest.raises(ToolError, match="--get-muddy"):
-            await tool_fn(
-                mock_context,
-                domain="example.com",
-                nameservers=["ns1.example.com"],
-            )
-
     async def test_update_nameservers_success(
-        self, mock_context_write: MagicMock, mock_piglet: AsyncMock
+        self, mock_context: MagicMock, mock_piglet: AsyncMock
     ) -> None:
         """domains_update_nameservers should return updated Nameservers."""
-        mcp, _ = _register_domains_write()
+        mcp = _register_domains()
         tool_fn = get_tool_fn(mcp, "domains_update_nameservers")
 
         result = await tool_fn(
-            mock_context_write,
+            mock_context,
             domain="example.com",
             nameservers=["ns1.custom.com", "ns2.custom.com"],
         )
@@ -115,7 +98,7 @@ class TestDomainsCheckAvailability:
         mock_result.price = "9.68"
         mock_result.premium = False
         mock_piglet.domains.check.return_value = mock_result
-        mcp, _ = _register_domains_readonly()
+        mcp = _register_domains()
         tool_fn = get_tool_fn(mcp, "domains_check_availability")
 
         result = await tool_fn(mock_context, domain="available-domain.com")
@@ -124,3 +107,150 @@ class TestDomainsCheckAvailability:
         assert result.available is True
         assert result.price == "9.68"
         mock_piglet.domains.check.assert_called_once_with("available-domain.com")
+
+
+class TestDomainsGetUrlForwards:
+    """Tests for domains_get_url_forwards tool."""
+
+    async def test_get_url_forwards_returns_list(
+        self, mock_context: MagicMock, mock_piglet: AsyncMock
+    ) -> None:
+        """domains_get_url_forwards should return list of URLForward."""
+        mock_forward = MagicMock()
+        mock_forward.id = "123"
+        mock_forward.subdomain = "www"
+        mock_forward.location = "https://example.org"
+        mock_forward.type = "temporary"
+        mock_forward.include_path = False
+        mock_forward.wildcard = False
+        mock_piglet.domains.get_url_forwards.return_value = [mock_forward]
+        mcp = _register_domains()
+        tool_fn = get_tool_fn(mcp, "domains_get_url_forwards")
+
+        result = await tool_fn(mock_context, domain="example.com")
+
+        assert len(result) == 1
+        assert isinstance(result[0], URLForward)
+        assert result[0].location == "https://example.org"
+
+
+class TestDomainsAddUrlForward:
+    """Tests for domains_add_url_forward tool."""
+
+    async def test_add_url_forward_success(
+        self, mock_context: MagicMock, mock_piglet: AsyncMock
+    ) -> None:
+        """domains_add_url_forward should create a forwarding rule."""
+        mcp = _register_domains()
+        tool_fn = get_tool_fn(mcp, "domains_add_url_forward")
+
+        result = await tool_fn(
+            mock_context,
+            domain="example.com",
+            location="https://example.org",
+            subdomain="www",
+        )
+
+        assert isinstance(result, URLForwardCreated)
+        assert result.status == "created"
+        mock_piglet.domains.add_url_forward.assert_called_once()
+
+
+class TestDomainsDeleteUrlForward:
+    """Tests for domains_delete_url_forward tool."""
+
+    async def test_delete_url_forward_success(
+        self, mock_context: MagicMock, mock_piglet: AsyncMock
+    ) -> None:
+        """domains_delete_url_forward should delete a forwarding rule."""
+        mcp = _register_domains()
+        tool_fn = get_tool_fn(mcp, "domains_delete_url_forward")
+
+        result = await tool_fn(mock_context, domain="example.com", forward_id="123")
+
+        assert isinstance(result, URLForwardCreated)
+        assert result.status == "deleted"
+        mock_piglet.domains.delete_url_forward.assert_called_once()
+
+
+class TestDomainsGetGlueRecords:
+    """Tests for domains_get_glue_records tool."""
+
+    async def test_get_glue_records_returns_list(
+        self, mock_context: MagicMock, mock_piglet: AsyncMock
+    ) -> None:
+        """domains_get_glue_records should return list of GlueRecord."""
+        mock_glue = MagicMock()
+        mock_glue.hostname = "ns1.example.com"
+        mock_glue.ipv4 = ["192.0.2.1"]
+        mock_glue.ipv6 = ["2001:db8::1"]
+        mock_piglet.domains.get_glue_records.return_value = [mock_glue]
+        mcp = _register_domains()
+        tool_fn = get_tool_fn(mcp, "domains_get_glue_records")
+
+        result = await tool_fn(mock_context, domain="example.com")
+
+        assert len(result) == 1
+        assert isinstance(result[0], GlueRecord)
+        assert result[0].hostname == "ns1.example.com"
+
+
+class TestDomainsCreateGlueRecord:
+    """Tests for domains_create_glue_record tool."""
+
+    async def test_create_glue_record_success(
+        self, mock_context: MagicMock, mock_piglet: AsyncMock
+    ) -> None:
+        """domains_create_glue_record should create a glue record."""
+        mcp = _register_domains()
+        tool_fn = get_tool_fn(mcp, "domains_create_glue_record")
+
+        result = await tool_fn(
+            mock_context,
+            domain="example.com",
+            subdomain="ns1",
+            ips=["192.0.2.1", "2001:db8::1"],
+        )
+
+        assert isinstance(result, GlueRecordCreated)
+        assert result.status == "created"
+        mock_piglet.domains.create_glue_record.assert_called_once()
+
+
+class TestDomainsUpdateGlueRecord:
+    """Tests for domains_update_glue_record tool."""
+
+    async def test_update_glue_record_success(
+        self, mock_context: MagicMock, mock_piglet: AsyncMock
+    ) -> None:
+        """domains_update_glue_record should update a glue record."""
+        mcp = _register_domains()
+        tool_fn = get_tool_fn(mcp, "domains_update_glue_record")
+
+        result = await tool_fn(
+            mock_context,
+            domain="example.com",
+            subdomain="ns1",
+            ips=["192.0.2.2"],
+        )
+
+        assert isinstance(result, GlueRecordCreated)
+        assert result.status == "updated"
+        mock_piglet.domains.update_glue_record.assert_called_once()
+
+
+class TestDomainsDeleteGlueRecord:
+    """Tests for domains_delete_glue_record tool."""
+
+    async def test_delete_glue_record_success(
+        self, mock_context: MagicMock, mock_piglet: AsyncMock
+    ) -> None:
+        """domains_delete_glue_record should delete a glue record."""
+        mcp = _register_domains()
+        tool_fn = get_tool_fn(mcp, "domains_delete_glue_record")
+
+        result = await tool_fn(mock_context, domain="example.com", subdomain="ns1")
+
+        assert isinstance(result, GlueRecordCreated)
+        assert result.status == "deleted"
+        mock_piglet.domains.delete_glue_record.assert_called_once()

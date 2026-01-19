@@ -37,7 +37,7 @@ Get DNS records by subdomain and type.
 
 ## dns_create
 
-Create a new DNS record. **Requires `--get-muddy` mode.**
+Create a new DNS record.
 
 **Parameters:**
 
@@ -52,7 +52,7 @@ Create a new DNS record. **Requires `--get-muddy` mode.**
 
 ## dns_edit
 
-Edit a DNS record by ID. **Requires `--get-muddy` mode.**
+Edit a DNS record by ID.
 
 **Parameters:**
 
@@ -68,7 +68,7 @@ Edit a DNS record by ID. **Requires `--get-muddy` mode.**
 
 ## dns_delete
 
-Delete a DNS record by ID. **Requires `--get-muddy` mode.**
+Delete a DNS record by ID.
 
 **Parameters:**
 
@@ -79,7 +79,7 @@ Delete a DNS record by ID. **Requires `--get-muddy` mode.**
 
 ## dns_delete_by_name_type
 
-Delete DNS records by subdomain and type. **Requires `--get-muddy` mode.**
+Delete DNS records by subdomain and type.
 
 **Parameters:**
 

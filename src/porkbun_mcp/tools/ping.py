@@ -17,11 +17,7 @@ def register_ping_tools(mcp: FastMCP) -> None:
 
     @mcp.tool()
     async def ping(ctx: Context) -> PingResult:
-        """Test API connectivity and get your public IP address.
-
-        Verifies that your Porkbun API credentials are valid and returns
-        your public IP address as seen by Porkbun's servers.
-        """
+        """Test API connectivity and get your public IP address."""
         piglet = get_piglet(ctx)
 
         try:

@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import argparse
-import os
 
 
 def main() -> None:
@@ -15,23 +14,11 @@ def main() -> None:
 Environment Variables:
   PORKBUN_API_KEY       Porkbun API key (required)
   PORKBUN_SECRET_KEY    Porkbun secret key (required)
-  PORKBUN_GET_MUDDY     Enable write operations (default: false)
 
 Examples:
-  # Read-only mode (default)
   porkbun-mcp
-
-  # Enable write operations
-  porkbun-mcp --get-muddy
-
-  # Use SSE transport
   porkbun-mcp --transport sse
 """,
-    )
-    parser.add_argument(
-        "--get-muddy",
-        action="store_true",
-        help="Enable write operations (create, edit, delete)",
     )
     parser.add_argument(
         "--transport",
@@ -40,9 +27,6 @@ Examples:
         help="Transport protocol (default: stdio)",
     )
     args = parser.parse_args()
-
-    if args.get_muddy:
-        os.environ["PORKBUN_GET_MUDDY"] = "true"
 
     from porkbun_mcp.server import create_server
 
