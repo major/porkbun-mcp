@@ -12,6 +12,7 @@ jobs:
   analyze:
     name: Analyze
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     permissions:
       security-events: write
       packages: read

@@ -6,6 +6,9 @@ updates:
       interval: "weekly"
     commit-message:
       prefix: "chore(deps)"
+    labels:
+      - "dependencies"
+    open-pull-requests-limit: 5
     groups:
       python-dependencies:
         patterns:
@@ -17,6 +20,9 @@ updates:
       interval: "weekly"
     commit-message:
       prefix: "chore(deps)"
+    labels:
+      - "dependencies"
+    open-pull-requests-limit: 5
     groups:
       github-actions:
         patterns:
