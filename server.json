@@ -1,18 +1,18 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.major/porkbun",
-  "title": "Porkbun DNS",
+  "title": "Porkbun DNS 🐷",
   "description": "Manage DNS records, domains, DNSSEC, SSL certificates via MCP",
   "repository": {
     "url": "https://github.com/major/porkbun-mcp",
     "source": "github"
   },
-  "version": "0.1.0",
+  "version": "1.0.0",
   "packages": [
     {
       "registryType": "pypi",
       "identifier": "porkbun-mcp",
-      "version": "0.1.0",
+      "version": "1.0.0",
       "transport": {
         "type": "stdio"
       },
