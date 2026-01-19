@@ -56,6 +56,63 @@ Add to `~/.config/claude/claude_desktop_config.json`:
 }
 ```
 
+### Claude Code / Codex
+
+Add to `~/.claude/settings.json`:
+
+```json
+{
+  "mcpServers": {
+    "porkbun": {
+      "command": "uvx",
+      "args": ["porkbun-mcp"],
+      "env": {
+        "PORKBUN_API_KEY": "pk1_...",
+        "PORKBUN_SECRET_KEY": "sk1_..."
+      }
+    }
+  }
+}
+```
+
+### VS Code
+
+Add to `.vscode/mcp.json` in your workspace (or use `MCP: Add Server` command):
+
+```json
+{
+  "servers": {
+    "porkbun": {
+      "command": "uvx",
+      "args": ["porkbun-mcp"],
+      "env": {
+        "PORKBUN_API_KEY": "pk1_...",
+        "PORKBUN_SECRET_KEY": "sk1_..."
+      }
+    }
+  }
+}
+```
+
+### OpenCode
+
+Add to your `opencode.json` configuration:
+
+```json
+{
+  "mcp": {
+    "porkbun": {
+      "type": "local",
+      "command": ["uvx", "porkbun-mcp"],
+      "environment": {
+        "PORKBUN_API_KEY": "pk1_...",
+        "PORKBUN_SECRET_KEY": "sk1_..."
+      }
+    }
+  }
+}
+```
+
 ## Available Tools
 
 ### DNS
