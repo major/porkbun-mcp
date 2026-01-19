@@ -25,7 +25,7 @@ def _to_tld_pricing(tld: str, p: Any) -> TLDPricing:
 def register_pricing_tools(mcp: FastMCP) -> None:
     """Register pricing tools with the MCP server."""
 
-    @mcp.tool()
+    @mcp.tool(annotations={"readOnlyHint": True})
     async def pricing_get(ctx: Context) -> list[TLDPricing]:  # noqa: ARG001
         """Get pricing for all available TLDs."""
         try:

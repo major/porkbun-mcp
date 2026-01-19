@@ -15,7 +15,7 @@ if TYPE_CHECKING:
 def register_ping_tools(mcp: FastMCP) -> None:
     """Register ping tools with the MCP server."""
 
-    @mcp.tool()
+    @mcp.tool(annotations={"readOnlyHint": True})
     async def ping(ctx: Context) -> PingResult:
         """Test API connectivity and get your public IP address."""
         piglet = get_piglet(ctx)

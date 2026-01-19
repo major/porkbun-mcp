@@ -43,7 +43,7 @@ def _to_dns_record(r: Any) -> DNSRecord:
 def register_dns_tools(mcp: FastMCP) -> None:
     """Register DNS tools with the MCP server."""
 
-    @mcp.tool()
+    @mcp.tool(annotations={"readOnlyHint": True})
     async def dns_list(
         ctx: Context,
         domain: Annotated[str, Field(description="Domain name (e.g., 'example.com')")],
@@ -57,7 +57,7 @@ def register_dns_tools(mcp: FastMCP) -> None:
         except Exception as e:
             raise handle_oinker_error(e, f"list DNS records for {domain}") from e
 
-    @mcp.tool()
+    @mcp.tool(annotations={"readOnlyHint": True})
     async def dns_get(
         ctx: Context,
         domain: Annotated[str, Field(description="Domain name (e.g., 'example.com')")],
@@ -76,7 +76,7 @@ def register_dns_tools(mcp: FastMCP) -> None:
         except Exception as e:
             raise handle_oinker_error(e, f"get DNS record {record_id}") from e
 
-    @mcp.tool()
+    @mcp.tool(annotations={"readOnlyHint": True})
     async def dns_get_by_name_type(
         ctx: Context,
         domain: Annotated[str, Field(description="Domain name (e.g., 'example.com')")],

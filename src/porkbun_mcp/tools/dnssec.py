@@ -17,7 +17,7 @@ if TYPE_CHECKING:
 def register_dnssec_tools(mcp: FastMCP) -> None:
     """Register DNSSEC tools with the MCP server."""
 
-    @mcp.tool()
+    @mcp.tool(annotations={"readOnlyHint": True})
     async def dnssec_list(
         ctx: Context,
         domain: Annotated[str, Field(description="Domain name (e.g., 'example.com')")],
