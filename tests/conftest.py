@@ -65,8 +65,8 @@ def mock_piglet() -> AsyncMock:
 
 @pytest.fixture
 def mock_lifespan_context(mock_piglet: AsyncMock) -> AppContext:
-    """Mock lifespan context with typed AppContext."""
-    return AppContext(piglet=mock_piglet)
+    """Mock lifespan context with typed AppContext (writes enabled for tests)."""
+    return AppContext(piglet=mock_piglet, read_only=False)
 
 
 @pytest.fixture
