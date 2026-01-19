@@ -6,7 +6,7 @@ from fastmcp import Context
 from fastmcp.exceptions import ToolError
 from pydantic import Field
 
-from porkbun_mcp.context import get_piglet
+from porkbun_mcp.context import get_piglet, require_writes
 from porkbun_mcp.errors import handle_oinker_error
 from porkbun_mcp.models import (
     DomainAvailability,
@@ -73,6 +73,7 @@ def register_domain_tools(mcp: "FastMCP") -> None:
         nameservers: Annotated[list[str], Field(description="List of nameservers")],
     ) -> Nameservers:
         """Update nameservers for a domain."""
+        require_writes(ctx)
         piglet = get_piglet(ctx)
 
         try:
@@ -118,6 +119,7 @@ def register_domain_tools(mcp: "FastMCP") -> None:
         wildcard: Annotated[bool, Field(description="Forward all subdomains")] = False,
     ) -> URLForwardCreated:
         """Add a URL forwarding rule."""
+        require_writes(ctx)
         piglet = get_piglet(ctx)
 
         try:
@@ -144,6 +146,7 @@ def register_domain_tools(mcp: "FastMCP") -> None:
         forward_id: Annotated[str, Field(description="URL forward ID to delete")],
     ) -> URLForwardCreated:
         """Delete a URL forwarding rule."""
+        require_writes(ctx)
         piglet = get_piglet(ctx)
 
         try:
@@ -200,6 +203,7 @@ def register_domain_tools(mcp: "FastMCP") -> None:
         ips: Annotated[list[str], Field(description="List of IP addresses (IPv4 and/or IPv6)")],
     ) -> GlueRecordCreated:
         """Create a glue record for self-hosted nameservers."""
+        require_writes(ctx)
         piglet = get_piglet(ctx)
 
         try:
@@ -219,6 +223,7 @@ def register_domain_tools(mcp: "FastMCP") -> None:
         ips: Annotated[list[str], Field(description="New list of IP addresses (replaces all)")],
     ) -> GlueRecordCreated:
         """Update a glue record's IP addresses."""
+        require_writes(ctx)
         piglet = get_piglet(ctx)
 
         try:
@@ -237,6 +242,7 @@ def register_domain_tools(mcp: "FastMCP") -> None:
         subdomain: Annotated[str, Field(description="Subdomain of the glue record to delete")],
     ) -> GlueRecordCreated:
         """Delete a glue record."""
+        require_writes(ctx)
         piglet = get_piglet(ctx)
 
         try:
