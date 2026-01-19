@@ -5,10 +5,10 @@ from __future__ import annotations
 from unittest.mock import AsyncMock, MagicMock
 
 import pytest
+from conftest import get_tool_fn
 from fastmcp import FastMCP
 from fastmcp.exceptions import ToolError
 
-from conftest import get_tool_fn
 from porkbun_mcp.context import get_read_only, require_writes
 from porkbun_mcp.server import AppContext
 from porkbun_mcp.tools.dns import register_dns_tools
