@@ -21,6 +21,27 @@ export PORKBUN_SECRET_KEY="sk1_..."
 
 Get your API keys from the [Porkbun API Access page](https://porkbun.com/account/api).
 
+## Read-Only Mode (Default)
+
+By default, porkbun-mcp runs in **read-only mode** for safety. Write operations
+(create, edit, delete) will return an error until explicitly enabled.
+
+### Enabling Write Operations
+
+To let the pig get muddy and make changes:
+
+**Environment variable:**
+
+```bash
+export PORKBUN_GET_MUDDY=true
+```
+
+**CLI flag:**
+
+```bash
+uvx porkbun-mcp --get-muddy
+```
+
 ## Usage
 
 Run directly with [uvx](https://docs.astral.sh/uv/) (no installation required):
@@ -46,7 +67,7 @@ Add to `~/.config/claude/claude_desktop_config.json`:
   "mcpServers": {
     "porkbun": {
       "command": "uvx",
-      "args": ["porkbun-mcp"],
+      "args": ["porkbun-mcp", "--get-muddy"],
       "env": {
         "PORKBUN_API_KEY": "pk1_...",
         "PORKBUN_SECRET_KEY": "sk1_..."
@@ -55,6 +76,8 @@ Add to `~/.config/claude/claude_desktop_config.json`:
   }
 }
 ```
+
+> **Note:** Remove `--get-muddy` from args for read-only mode (recommended for safety).
 
 ### Claude Code / Codex
 
@@ -65,7 +88,7 @@ Add to `~/.claude/settings.json`:
   "mcpServers": {
     "porkbun": {
       "command": "uvx",
-      "args": ["porkbun-mcp"],
+      "args": ["porkbun-mcp", "--get-muddy"],
       "env": {
         "PORKBUN_API_KEY": "pk1_...",
         "PORKBUN_SECRET_KEY": "sk1_..."
@@ -84,7 +107,7 @@ Add to `.vscode/mcp.json` in your workspace (or use `MCP: Add Server` command):
   "servers": {
     "porkbun": {
       "command": "uvx",
-      "args": ["porkbun-mcp"],
+      "args": ["porkbun-mcp", "--get-muddy"],
       "env": {
         "PORKBUN_API_KEY": "pk1_...",
         "PORKBUN_SECRET_KEY": "sk1_..."
@@ -103,7 +126,7 @@ Add to your `opencode.json` configuration:
   "mcp": {
     "porkbun": {
       "type": "local",
-      "command": ["uvx", "porkbun-mcp"],
+      "command": ["uvx", "porkbun-mcp", "--get-muddy"],
       "environment": {
         "PORKBUN_API_KEY": "pk1_...",
         "PORKBUN_SECRET_KEY": "sk1_..."
