@@ -27,7 +27,6 @@ MCP (Model Context Protocol) server for Porkbun DNS API. Python 3.14+, FastMCP 2
 - **Package manager**: uv
 
 ### Key Design Decisions
-- `--get-muddy` flag enables write operations (read-only by default)
 - MCP Resources for read-only data browsing
 - Unified tools (one `dns_create` with `record_type` param)
 - Strict output schemas via Pydantic response models
@@ -40,7 +39,6 @@ MCP (Model Context Protocol) server for Porkbun DNS API. Python 3.14+, FastMCP 2
 
 **MCP server failures to prevent:**
 - Tools not returning proper Pydantic response models
-- Missing `--get-muddy` guard on write operations
 - Not handling oinker exceptions (must convert to `ToolError`)
 - Blocking calls in async tool functions
 - Missing type hints or docstrings
@@ -54,7 +52,6 @@ MCP (Model Context Protocol) server for Porkbun DNS API. Python 3.14+, FastMCP 2
 ### Tools (`src/porkbun_mcp/tools/**/*.py`)
 
 **What would cause tools to fail?**
-- Write tools not checking `settings.get_muddy`
 - Not using oinker's `create_record()` factory for DNS creation
 - Exceptions not mapped to `ToolError` via `handle_oinker_error()`
 - Missing `Annotated[type, Field(...)]` for parameter descriptions
@@ -72,7 +69,6 @@ MCP (Model Context Protocol) server for Porkbun DNS API. Python 3.14+, FastMCP 2
 **What would cause config to fail?**
 - Missing `env_prefix="PORKBUN_"` (env vars won't load)
 - Credentials logged or exposed in error messages
-- `get_muddy` defaulting to `True` (should be `False` for safety)
 
 ### Error Handling (`src/porkbun_mcp/errors.py`)
 
@@ -87,7 +83,6 @@ MCP (Model Context Protocol) server for Porkbun DNS API. Python 3.14+, FastMCP 2
 **What would make these tests meaningless?**
 - Tests that pass but don't assert meaningful outcomes
 - Mocks without `spec=` (won't catch attribute errors)
-- Not testing the `--get-muddy` guard on write tools
 - Missing edge cases: empty responses, network errors, invalid data
 - Not testing both success and failure paths
 
