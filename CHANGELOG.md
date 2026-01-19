@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 This project uses [Semantic Versioning](https://semver.org/) and [Conventional Commits](https://www.conventionalcommits.org/).
 
+## v0.1.3 (2026-01-19)
+
+### Fix
+
+- **ci**: remove broken plugin config from Claude Code review
+
 ## v0.1.2 (2026-01-19)
 
 ### Fix
