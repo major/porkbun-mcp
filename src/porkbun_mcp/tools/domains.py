@@ -137,7 +137,7 @@ def register_domain_tools(mcp: FastMCP) -> None:
         except Exception as e:
             raise handle_oinker_error(e, f"add URL forward for {domain}") from e
 
-    @mcp.tool()
+    @mcp.tool(annotations={"destructiveHint": True})
     async def domains_delete_url_forward(
         ctx: Context,
         domain: Annotated[str, Field(description="Domain name (e.g., 'example.com')")],
@@ -230,7 +230,7 @@ def register_domain_tools(mcp: FastMCP) -> None:
         except Exception as e:
             raise handle_oinker_error(e, f"update glue record {subdomain}.{domain}") from e
 
-    @mcp.tool()
+    @mcp.tool(annotations={"destructiveHint": True})
     async def domains_delete_glue_record(
         ctx: Context,
         domain: Annotated[str, Field(description="Domain name (e.g., 'example.com')")],
