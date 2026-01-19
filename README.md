@@ -10,18 +10,6 @@ Manage DNS records, domains, DNSSEC, SSL certificates, and more via the Model Co
 [![Python 3.13+](https://img.shields.io/badge/python-3.13+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-## Installation
-
-```bash
-pip install porkbun-mcp
-```
-
-Or with [uv](https://docs.astral.sh/uv/):
-
-```bash
-uv add porkbun-mcp
-```
-
 ## Configuration
 
 Set your Porkbun API credentials as environment variables:
@@ -35,14 +23,16 @@ Get your API keys from the [Porkbun API Access page](https://porkbun.com/account
 
 ## Usage
 
+Run directly with [uvx](https://docs.astral.sh/uv/) (no installation required):
+
 ```bash
-porkbun-mcp
+uvx porkbun-mcp
 ```
 
 ### SSE transport
 
 ```bash
-porkbun-mcp --transport sse
+uvx porkbun-mcp --transport sse
 ```
 
 ## MCP Client Configuration
@@ -55,7 +45,8 @@ Add to `~/.config/claude/claude_desktop_config.json`:
 {
   "mcpServers": {
     "porkbun": {
-      "command": "porkbun-mcp",
+      "command": "uvx",
+      "args": ["porkbun-mcp"],
       "env": {
         "PORKBUN_API_KEY": "pk1_...",
         "PORKBUN_SECRET_KEY": "sk1_..."
