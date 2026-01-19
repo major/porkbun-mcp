@@ -20,7 +20,7 @@ Get nameservers for a domain.
 
 ## domains_update_nameservers
 
-Update nameservers for a domain. **Requires `--get-muddy` mode.**
+Update nameservers for a domain.
 
 **Parameters:**
 
@@ -41,7 +41,7 @@ Get URL forwarding rules for a domain.
 
 ## domains_add_url_forward
 
-Add a URL forwarding rule. **Requires `--get-muddy` mode.**
+Add a URL forwarding rule.
 
 **Parameters:**
 
@@ -56,7 +56,7 @@ Add a URL forwarding rule. **Requires `--get-muddy` mode.**
 
 ## domains_delete_url_forward
 
-Delete a URL forwarding rule. **Requires `--get-muddy` mode.**
+Delete a URL forwarding rule.
 
 **Parameters:**
 

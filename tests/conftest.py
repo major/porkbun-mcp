@@ -9,40 +9,10 @@ from unittest.mock import AsyncMock, MagicMock
 import pytest
 from fastmcp import Context, FastMCP
 
-from porkbun_mcp.config import PorkbunMCPSettings
-
 
 def get_tool_fn(mcp: FastMCP, name: str) -> Callable[..., Coroutine[Any, Any, Any]]:
-    """Get a tool function from FastMCP by name.
-
-    Args:
-        mcp: The FastMCP server instance.
-        name: The tool name.
-
-    Returns:
-        The async tool function.
-    """
+    """Get a tool function from FastMCP by name."""
     return mcp._tool_manager._tools[name].fn  # type: ignore[attr-defined,return-value]
-
-
-@pytest.fixture
-def mock_settings() -> PorkbunMCPSettings:
-    """Test settings with read-only mode."""
-    return PorkbunMCPSettings(
-        api_key="pk1_test_key",
-        secret_key="sk1_test_secret",
-        get_muddy=False,
-    )
-
-
-@pytest.fixture
-def mock_settings_write() -> PorkbunMCPSettings:
-    """Test settings with write operations enabled."""
-    return PorkbunMCPSettings(
-        api_key="pk1_test_key",
-        secret_key="sk1_test_secret",
-        get_muddy=True,
-    )
 
 
 @pytest.fixture
@@ -88,42 +58,17 @@ def mock_piglet() -> AsyncMock:
 
 
 @pytest.fixture
-def mock_lifespan_context(
-    mock_piglet: AsyncMock, mock_settings: PorkbunMCPSettings
-) -> dict[str, Any]:
+def mock_lifespan_context(mock_piglet: AsyncMock) -> dict[str, Any]:
     """Mock lifespan context dict."""
-    return {
-        "piglet": mock_piglet,
-        "settings": mock_settings,
-    }
-
-
-@pytest.fixture
-def mock_lifespan_context_write(
-    mock_piglet: AsyncMock, mock_settings_write: PorkbunMCPSettings
-) -> dict[str, Any]:
-    """Mock lifespan context dict with write operations enabled."""
-    return {
-        "piglet": mock_piglet,
-        "settings": mock_settings_write,
-    }
+    return {"piglet": mock_piglet}
 
 
 @pytest.fixture
 def mock_context(mock_lifespan_context: dict[str, Any]) -> MagicMock:
-    """Mock FastMCP Context for read-only tools."""
+    """Mock FastMCP Context."""
     ctx = MagicMock(spec=Context)
     ctx.request_context = MagicMock()
     ctx.request_context.lifespan_context = mock_lifespan_context
-    return ctx
-
-
-@pytest.fixture
-def mock_context_write(mock_lifespan_context_write: dict[str, Any]) -> MagicMock:
-    """Mock FastMCP Context for write tools (--get-muddy enabled)."""
-    ctx = MagicMock(spec=Context)
-    ctx.request_context = MagicMock()
-    ctx.request_context.lifespan_context = mock_lifespan_context_write
     return ctx
 
 

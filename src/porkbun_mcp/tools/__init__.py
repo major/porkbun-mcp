@@ -7,16 +7,9 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from fastmcp import FastMCP
 
-    from porkbun_mcp.config import PorkbunMCPSettings
 
-
-def register_tools(mcp: FastMCP, settings: PorkbunMCPSettings) -> None:
-    """Register all tools with the MCP server.
-
-    Args:
-        mcp: The FastMCP server instance.
-        settings: Server configuration.
-    """
+def register_tools(mcp: FastMCP) -> None:
+    """Register all tools with the MCP server."""
     from porkbun_mcp.tools.dns import register_dns_tools
     from porkbun_mcp.tools.dnssec import register_dnssec_tools
     from porkbun_mcp.tools.domains import register_domain_tools
@@ -25,8 +18,8 @@ def register_tools(mcp: FastMCP, settings: PorkbunMCPSettings) -> None:
     from porkbun_mcp.tools.ssl import register_ssl_tools
 
     register_ping_tools(mcp)
-    register_dns_tools(mcp, settings)
-    register_domain_tools(mcp, settings)
-    register_dnssec_tools(mcp, settings)
+    register_dns_tools(mcp)
+    register_domain_tools(mcp)
+    register_dnssec_tools(mcp)
     register_ssl_tools(mcp)
     register_pricing_tools(mcp)

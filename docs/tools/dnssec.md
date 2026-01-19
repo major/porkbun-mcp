@@ -14,7 +14,7 @@ List DNSSEC records for a domain.
 
 ## dnssec_create
 
-Create a DNSSEC record. **Requires `--get-muddy` mode.**
+Create a DNSSEC record.
 
 **Parameters:**
 
@@ -28,7 +28,7 @@ Create a DNSSEC record. **Requires `--get-muddy` mode.**
 
 ## dnssec_delete
 
-Delete a DNSSEC record. **Requires `--get-muddy` mode.**
+Delete a DNSSEC record.
 
 **Parameters:**
 

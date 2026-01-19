@@ -32,7 +32,6 @@ def register_ssl_tools(mcp: FastMCP) -> None:
     ) -> SSLBundle:
         """Retrieve the SSL certificate bundle for a domain.
 
-        Returns the certificate chain, private key, and public key in PEM format.
         Only available for domains using Porkbun nameservers.
         """
         piglet = get_piglet(ctx)

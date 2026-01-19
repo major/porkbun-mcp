@@ -27,21 +27,6 @@ export PORKBUN_API_KEY="pk1_..."
 export PORKBUN_SECRET_KEY="sk1_..."
 ```
 
-### Enable Write Operations
-
-By default, porkbun-mcp runs in read-only mode. To enable write operations:
-
-```bash
-porkbun-mcp --get-muddy
-```
-
-Or set the environment variable:
-
-```bash
-export PORKBUN_GET_MUDDY=true
-porkbun-mcp
-```
-
 ## MCP Client Configuration
 
 ### Claude Desktop
@@ -61,8 +46,6 @@ Add to `~/.config/claude/claude_desktop_config.json`:
   }
 }
 ```
-
-For write operations, add `"args": ["--get-muddy"]`.
 
 ### Other MCP Clients
 

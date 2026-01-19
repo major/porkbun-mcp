@@ -35,19 +35,9 @@ Get your API keys from the [Porkbun API Access page](https://porkbun.com/account
 
 ## Usage
 
-### Read-only mode (default)
-
 ```bash
 porkbun-mcp
 ```
-
-### Enable write operations
-
-```bash
-porkbun-mcp --get-muddy
-```
-
-Or set `PORKBUN_GET_MUDDY=true` in your environment.
 
 ### SSE transport
 
@@ -75,8 +65,6 @@ Add to `~/.config/claude/claude_desktop_config.json`:
 }
 ```
 
-For write operations, add `"args": ["--get-muddy"]`.
-
 ## Available Tools
 
 ### DNS
@@ -84,29 +72,28 @@ For write operations, add `"args": ["--get-muddy"]`.
 - `dns_list` - List all DNS records for a domain
 - `dns_get` - Get a specific DNS record by ID
 - `dns_get_by_name_type` - Get DNS records by subdomain and type
-- `dns_create` - Create a new DNS record *
-- `dns_edit` - Edit a DNS record by ID *
-- `dns_delete` - Delete a DNS record by ID *
-- `dns_edit_by_name_type` - Edit DNS records by subdomain and type *
-- `dns_delete` - Delete a DNS record by ID *
-- `dns_delete_by_name_type` - Delete DNS records by subdomain and type *
+- `dns_create` - Create a new DNS record
+- `dns_edit` - Edit a DNS record by ID
+- `dns_edit_by_name_type` - Edit DNS records by subdomain and type
+- `dns_delete` - Delete a DNS record by ID
+- `dns_delete_by_name_type` - Delete DNS records by subdomain and type
 
 ### Domains
 
 - `domains_list` - List all domains in your account
 - `domains_get_nameservers` - Get nameservers for a domain
-- `domains_update_nameservers` - Update nameservers for a domain *
+- `domains_update_nameservers` - Update nameservers for a domain
 - `domains_get_url_forwards` - Get URL forwarding rules
-- `domains_add_url_forward` - Add a URL forwarding rule *
-- `domains_delete_url_forward` - Delete a URL forwarding rule *
+- `domains_add_url_forward` - Add a URL forwarding rule
+- `domains_delete_url_forward` - Delete a URL forwarding rule
 - `domains_check_availability` - Check domain availability and pricing
 - `domains_get_glue_records` - Get glue records for a domain
 
 ### DNSSEC
 
 - `dnssec_list` - List DNSSEC records for a domain
-- `dnssec_create` - Create a DNSSEC record *
-- `dnssec_delete` - Delete a DNSSEC record *
+- `dnssec_create` - Create a DNSSEC record
+- `dnssec_delete` - Delete a DNSSEC record
 
 ### SSL
 
@@ -119,8 +106,6 @@ For write operations, add `"args": ["--get-muddy"]`.
 ### Utility
 
 - `ping` - Test API connectivity and get your public IP
-
-\* Requires `--get-muddy` mode
 
 ## Resources
 

@@ -27,8 +27,7 @@ uv run pytest -k "test_dns_list"
 make fix
 
 # Run the MCP server
-uv run porkbun-mcp                    # Read-only mode
-uv run porkbun-mcp --get-muddy        # Write operations enabled
+uv run porkbun-mcp
 uv run porkbun-mcp --transport sse    # SSE transport
 ```
 
@@ -133,27 +132,6 @@ async def dns_list(
         raise handle_oinker_error(e, f"list DNS records for {domain}") from e
 ```
 
-### Write Tool Guard Pattern
-
-```python
-async def dns_create(
-    ctx: Context,
-    domain: Annotated[str, Field(description="Domain name")],
-    record_type: Annotated[str, Field(description="DNS record type")],
-    content: Annotated[str, Field(description="Record content")],
-) -> DNSRecordCreated:
-    """Create a new DNS record. Requires --get-muddy mode."""
-    settings: PorkbunMCPSettings = ctx.request_context.lifespan_context["settings"]
-
-    if not settings.get_muddy:
-        raise ToolError(
-            "Write operations require --get-muddy mode. "
-            "Restart with PORKBUN_GET_MUDDY=true or --get-muddy flag."
-        )
-
-    # ... implementation
-```
-
 ### Error Handling
 
 ```python
@@ -196,8 +174,6 @@ async def dns_create(
 ) -> DNSRecordCreated:
     """Create a new DNS record for a domain.
 
-    Requires --get-muddy mode to be enabled.
-
     Args:
         ctx: MCP context with piglet client.
         domain: The domain name (e.g., "example.com").
@@ -209,7 +185,7 @@ async def dns_create(
         DNSRecordCreated with the new record's ID.
 
     Raises:
-        ToolError: If not in --get-muddy mode or API call fails.
+        ToolError: If API call fails.
     """
 ```
 
@@ -229,17 +205,6 @@ class TestDNSTools:
         assert all(isinstance(r, DNSRecord) for r in result)
 ```
 
-### Testing Write Guard
-
-```python
-async def test_dns_create_blocked_without_get_muddy(
-    self, mock_context_readonly: Context
-) -> None:
-    """dns_create should raise ToolError without --get-muddy."""
-    with pytest.raises(ToolError, match="--get-muddy"):
-        await dns_create(mock_context_readonly, "example.com", "A", "1.2.3.4")
-```
-
 ### Fixtures (conftest.py)
 
 ```python
@@ -254,7 +219,6 @@ def mock_settings() -> PorkbunMCPSettings:
     return PorkbunMCPSettings(
         api_key="test_key",
         secret_key="test_secret",
-        get_muddy=False,
     )
 
 
@@ -268,10 +232,9 @@ def mock_piglet() -> AsyncMock:
 ## Key Design Patterns
 
 1. **Lifespan for client management**: `AsyncPiglet` created in lifespan, accessed via context
-2. **Read-only by default**: `--get-muddy` flag required for write operations
-3. **Pydantic response models**: Strict output schemas for all tools
-4. **oinker's create_record()**: Factory function for DNS record creation
-5. **Error mapping**: All oinker exceptions converted to `ToolError`
+2. **Pydantic response models**: Strict output schemas for all tools
+3. **oinker's create_record()**: Factory function for DNS record creation
+4. **Error mapping**: All oinker exceptions converted to `ToolError`
 
 ## Environment Variables
 
@@ -279,4 +242,3 @@ def mock_piglet() -> AsyncMock:
 |----------|-------------|---------|
 | `PORKBUN_API_KEY` | Porkbun API key | (required) |
 | `PORKBUN_SECRET_KEY` | Porkbun secret key | (required) |
-| `PORKBUN_GET_MUDDY` | Enable write operations | `false` |
