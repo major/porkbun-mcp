@@ -11,6 +11,7 @@ Manage DNS records, domains, DNSSEC, SSL certificates, and more via the Model Co
 - **DNSSEC support** - Manage DNSSEC records
 - **SSL certificates** - Retrieve SSL bundles for domains
 - **MCP Resources** - Browse data via `porkbun://` URIs
+- **Safe by default** - Read-only mode prevents accidental changes
 
 ## Quick Start
 
