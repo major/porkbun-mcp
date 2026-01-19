@@ -22,7 +22,7 @@ def _to_ssl_bundle(bundle: Any) -> SSLBundle:
     )
 
 
-def register_ssl_tools(mcp: FastMCP) -> None:
+def register_ssl_tools(mcp: "FastMCP") -> None:
     """Register SSL tools with the MCP server."""
 
     @mcp.tool(annotations={"readOnlyHint": True})

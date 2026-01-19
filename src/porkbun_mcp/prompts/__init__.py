@@ -8,7 +8,7 @@ if TYPE_CHECKING:
     from fastmcp import FastMCP
 
 
-def register_prompts(mcp: FastMCP) -> None:
+def register_prompts(mcp: "FastMCP") -> None:
     """Register all prompt templates with the MCP server.
 
     Args:

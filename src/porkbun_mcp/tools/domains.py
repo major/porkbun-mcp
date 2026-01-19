@@ -38,7 +38,7 @@ def _to_domain_info(d: Any) -> DomainInfo:
     )
 
 
-def register_domain_tools(mcp: FastMCP) -> None:
+def register_domain_tools(mcp: "FastMCP") -> None:
     """Register domain tools with the MCP server."""
 
     @mcp.tool(annotations={"readOnlyHint": True})

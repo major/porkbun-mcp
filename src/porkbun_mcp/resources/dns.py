@@ -13,7 +13,7 @@ if TYPE_CHECKING:
     from fastmcp import FastMCP
 
 
-def register_dns_resources(mcp: FastMCP) -> None:
+def register_dns_resources(mcp: "FastMCP") -> None:
     """Register DNS resources with the MCP server."""
 
     @mcp.resource("porkbun://dns/{domain}", annotations={"readOnlyHint": True})

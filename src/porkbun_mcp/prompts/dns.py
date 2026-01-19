@@ -10,7 +10,7 @@ if TYPE_CHECKING:
     from fastmcp import FastMCP
 
 
-def register_dns_prompts(mcp: FastMCP) -> None:
+def register_dns_prompts(mcp: "FastMCP") -> None:
     """Register DNS prompt templates with the MCP server."""
 
     @mcp.prompt

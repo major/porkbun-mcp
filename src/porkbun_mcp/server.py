@@ -20,7 +20,7 @@ class AppContext:
 
 
 @asynccontextmanager
-async def lifespan(mcp: FastMCP) -> AsyncIterator[AppContext]:
+async def lifespan(mcp: "FastMCP") -> AsyncIterator[AppContext]:
     """Manage AsyncPiglet client lifecycle."""
     settings = PorkbunMCPSettings()
 
