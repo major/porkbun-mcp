@@ -16,7 +16,7 @@ if TYPE_CHECKING:
 def register_dns_resources(mcp: FastMCP) -> None:
     """Register DNS resources with the MCP server."""
 
-    @mcp.resource("porkbun://dns/{domain}")
+    @mcp.resource("porkbun://dns/{domain}", annotations={"readOnlyHint": True})
     async def dns_resource(ctx: Context, domain: str) -> list[DNSRecord]:
         """List all DNS records for a domain."""
         piglet = get_piglet(ctx)

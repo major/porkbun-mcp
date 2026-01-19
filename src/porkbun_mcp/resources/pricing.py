@@ -16,7 +16,7 @@ if TYPE_CHECKING:
 def register_pricing_resources(mcp: FastMCP) -> None:
     """Register pricing resources with the MCP server."""
 
-    @mcp.resource("porkbun://pricing")
+    @mcp.resource("porkbun://pricing", annotations={"readOnlyHint": True})
     async def pricing_resource(ctx: Context) -> list[TLDPricing]:  # noqa: ARG001
         """Get pricing for all available TLDs."""
         try:
