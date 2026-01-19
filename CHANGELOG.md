@@ -4,15 +4,31 @@ All notable changes to this project will be documented in this file.
 
 This project uses [Semantic Versioning](https://semver.org/) and [Conventional Commits](https://www.conventionalcommits.org/).
 
-## v0.1.0 (unreleased)
+## v0.1.1 (2026-01-19)
+
+### Fix
+
+- add claude.md symlink
+
+## v0.1.0 (2026-01-19)
 
 ### Feat
 
-- add MCP tools for DNS record management (list, get, create, edit, delete)
-- add MCP tools for domain management (nameservers, URL forwarding, glue records)
-- add MCP tools for DNSSEC management
-- add MCP tools for SSL certificate retrieval
-- add MCP tools for TLD pricing
-- add MCP resources for browsing data (domains, DNS records, SSL certs, pricing)
-- add MCP prompts for common DNS workflows
-- add documentation with MkDocs Material theme
+- add automated release pipeline with commitizen and MCP registry
+- add readOnlyHint annotations to all resources
+- add idempotentHint annotations to create/edit tools
+- add destructiveHint annotations to delete tools
+- add readOnlyHint annotations to read-only tools
+- add typed lifespan context (AppContext)
+- enhance server instructions with workflow guidance
+- add MCP prompt templates for common DNS workflows
+- initial porkbun-mcp implementation
+
+### Fix
+
+- use quoted FastMCP annotations for Python 3.13 compatibility
+- **ci**: pass CODECOV_TOKEN to codecov action
+
+### Refactor
+
+- remove --get-muddy write protection
