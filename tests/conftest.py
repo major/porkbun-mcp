@@ -46,6 +46,10 @@ def mock_piglet() -> AsyncMock:
     piglet.domains.delete_url_forward = AsyncMock(return_value=None)
     piglet.domains.check = AsyncMock()
     piglet.domains.get_glue_records = AsyncMock(return_value=[])
+    piglet.domains.create_glue_record = AsyncMock(return_value=None)
+    piglet.domains.update_glue_record = AsyncMock(return_value=None)
+    piglet.domains.delete_glue_record = AsyncMock(return_value=None)
+    piglet.dns.edit_by_name_type = AsyncMock(return_value=None)
 
     # SSL API
     piglet.ssl = AsyncMock()

@@ -112,6 +112,82 @@ class TestDNSCreate:
             )
 
 
+class TestDNSGetByNameType:
+    """Tests for dns_get_by_name_type tool."""
+
+    async def test_dns_get_by_name_type_returns_records(
+        self, mock_context: MagicMock, mock_piglet: AsyncMock
+    ) -> None:
+        """dns_get_by_name_type should return matching records."""
+        mock_piglet.dns.get_by_name_type.return_value = [make_mock_dns_record()]
+        mcp = _register_dns()
+        tool_fn = get_tool_fn(mcp, "dns_get_by_name_type")
+
+        result = await tool_fn(mock_context, domain="example.com", record_type="A", subdomain="www")
+
+        assert len(result) == 1
+        assert isinstance(result[0], DNSRecord)
+        mock_piglet.dns.get_by_name_type.assert_called_once_with("example.com", "A", "www")
+
+    async def test_dns_get_by_name_type_root(
+        self, mock_context: MagicMock, mock_piglet: AsyncMock
+    ) -> None:
+        """dns_get_by_name_type should handle root domain (None subdomain)."""
+        mock_piglet.dns.get_by_name_type.return_value = []
+        mcp = _register_dns()
+        tool_fn = get_tool_fn(mcp, "dns_get_by_name_type")
+
+        result = await tool_fn(mock_context, domain="example.com", record_type="A")
+
+        assert result == []
+        mock_piglet.dns.get_by_name_type.assert_called_once_with("example.com", "A", None)
+
+
+class TestDNSEdit:
+    """Tests for dns_edit tool."""
+
+    async def test_dns_edit_success(self, mock_context: MagicMock, mock_piglet: AsyncMock) -> None:
+        """dns_edit should return DNSRecordCreated with updated status."""
+        mcp = _register_dns()
+        tool_fn = get_tool_fn(mcp, "dns_edit")
+
+        result = await tool_fn(
+            mock_context,
+            domain="example.com",
+            record_id="12345",
+            record_type="A",
+            content="192.0.2.2",
+        )
+
+        assert isinstance(result, DNSRecordCreated)
+        assert result.status == "updated"
+        assert result.record_id == "12345"
+        mock_piglet.dns.edit.assert_called_once()
+
+
+class TestDNSEditByNameType:
+    """Tests for dns_edit_by_name_type tool."""
+
+    async def test_dns_edit_by_name_type_success(
+        self, mock_context: MagicMock, mock_piglet: AsyncMock
+    ) -> None:
+        """dns_edit_by_name_type should update matching records."""
+        mcp = _register_dns()
+        tool_fn = get_tool_fn(mcp, "dns_edit_by_name_type")
+
+        result = await tool_fn(
+            mock_context,
+            domain="example.com",
+            record_type="A",
+            content="192.0.2.2",
+            subdomain="www",
+        )
+
+        assert isinstance(result, DNSRecordDeleted)
+        assert result.status == "updated"
+        mock_piglet.dns.edit_by_name_type.assert_called_once()
+
+
 class TestDNSDelete:
     """Tests for dns_delete tool."""
 
@@ -127,3 +203,20 @@ class TestDNSDelete:
         assert isinstance(result, DNSRecordDeleted)
         assert result.status == "deleted"
         mock_piglet.dns.delete.assert_called_once_with("example.com", "12345")
+
+
+class TestDNSDeleteByNameType:
+    """Tests for dns_delete_by_name_type tool."""
+
+    async def test_dns_delete_by_name_type_success(
+        self, mock_context: MagicMock, mock_piglet: AsyncMock
+    ) -> None:
+        """dns_delete_by_name_type should delete matching records."""
+        mcp = _register_dns()
+        tool_fn = get_tool_fn(mcp, "dns_delete_by_name_type")
+
+        result = await tool_fn(mock_context, domain="example.com", record_type="A", subdomain="www")
+
+        assert isinstance(result, DNSRecordDeleted)
+        assert result.status == "deleted"
+        mock_piglet.dns.delete_by_name_type.assert_called_once_with("example.com", "A", "www")
