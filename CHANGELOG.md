@@ -4,6 +4,22 @@ All notable changes to this project will be documented in this file.
 
 This project uses [Semantic Versioning](https://semver.org/) and [Conventional Commits](https://www.conventionalcommits.org/).
 
+## v0.2.0 (2026-01-19)
+
+### Feat
+
+- **dnssec**: enforce read-only mode on write operations
+- **domains**: enforce read-only mode on write operations
+- **dns**: enforce read-only mode on write operations
+- **context**: add require_writes() helper for read-only enforcement
+- **server**: add read_only to AppContext for mode enforcement
+- **cli**: add --get-muddy flag to enable write operations
+- **config**: add get_muddy setting for read-only mode
+
+### Fix
+
+- **tests**: add raise_on_error=False and fix import order
+
 ## v0.1.3 (2026-01-19)
 
 ### Fix
