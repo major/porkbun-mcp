@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 
 This project uses [Semantic Versioning](https://semver.org/) and [Conventional Commits](https://www.conventionalcommits.org/).
 
+## v1.0.0 (2026-01-19)
+
+### Feat
+
+- **server**: add pig emoji to server title 🐷
+- **meta**: promote to Production/Stable status
+
+### Summary
+
+First stable release! The read/write mode split (safe-by-default with `--get-muddy` to enable writes) introduced in v0.2.0 is now production-ready.
+
 ## v0.2.0 (2026-01-19)
 
 ### Feat
