@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
-from typing import Any
+from dataclasses import dataclass
 
 from fastmcp import FastMCP
 from oinker import AsyncPiglet
@@ -12,8 +12,15 @@ from oinker import AsyncPiglet
 from porkbun_mcp.config import PorkbunMCPSettings
 
 
+@dataclass
+class AppContext:
+    """Typed application context for lifespan-managed resources."""
+
+    piglet: AsyncPiglet
+
+
 @asynccontextmanager
-async def lifespan(mcp: FastMCP) -> AsyncIterator[dict[str, Any]]:
+async def lifespan(mcp: FastMCP) -> AsyncIterator[AppContext]:
     """Manage AsyncPiglet client lifecycle."""
     settings = PorkbunMCPSettings()
 
@@ -21,7 +28,7 @@ async def lifespan(mcp: FastMCP) -> AsyncIterator[dict[str, Any]]:
         api_key=settings.api_key,
         secret_key=settings.secret_key,
     ) as piglet:
-        yield {"piglet": piglet}
+        yield AppContext(piglet=piglet)
 
 
 def create_server() -> FastMCP:
