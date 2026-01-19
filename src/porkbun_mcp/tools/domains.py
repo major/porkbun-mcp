@@ -41,7 +41,7 @@ def _to_domain_info(d: Any) -> DomainInfo:
 def register_domain_tools(mcp: FastMCP) -> None:
     """Register domain tools with the MCP server."""
 
-    @mcp.tool()
+    @mcp.tool(annotations={"readOnlyHint": True})
     async def domains_list(ctx: Context) -> list[DomainInfo]:
         """List all domains in your Porkbun account."""
         piglet = get_piglet(ctx)
@@ -52,7 +52,7 @@ def register_domain_tools(mcp: FastMCP) -> None:
         except Exception as e:
             raise handle_oinker_error(e, "list domains") from e
 
-    @mcp.tool()
+    @mcp.tool(annotations={"readOnlyHint": True})
     async def domains_get_nameservers(
         ctx: Context,
         domain: Annotated[str, Field(description="Domain name (e.g., 'example.com')")],
@@ -66,7 +66,7 @@ def register_domain_tools(mcp: FastMCP) -> None:
         except Exception as e:
             raise handle_oinker_error(e, f"get nameservers for {domain}") from e
 
-    @mcp.tool()
+    @mcp.tool(annotations={"idempotentHint": True})
     async def domains_update_nameservers(
         ctx: Context,
         domain: Annotated[str, Field(description="Domain name (e.g., 'example.com')")],
@@ -81,7 +81,7 @@ def register_domain_tools(mcp: FastMCP) -> None:
         except Exception as e:
             raise handle_oinker_error(e, f"update nameservers for {domain}") from e
 
-    @mcp.tool()
+    @mcp.tool(annotations={"readOnlyHint": True})
     async def domains_get_url_forwards(
         ctx: Context,
         domain: Annotated[str, Field(description="Domain name (e.g., 'example.com')")],
@@ -105,7 +105,7 @@ def register_domain_tools(mcp: FastMCP) -> None:
         except Exception as e:
             raise handle_oinker_error(e, f"get URL forwards for {domain}") from e
 
-    @mcp.tool()
+    @mcp.tool(annotations={"idempotentHint": False})
     async def domains_add_url_forward(
         ctx: Context,
         domain: Annotated[str, Field(description="Domain name (e.g., 'example.com')")],
@@ -137,7 +137,7 @@ def register_domain_tools(mcp: FastMCP) -> None:
         except Exception as e:
             raise handle_oinker_error(e, f"add URL forward for {domain}") from e
 
-    @mcp.tool()
+    @mcp.tool(annotations={"destructiveHint": True})
     async def domains_delete_url_forward(
         ctx: Context,
         domain: Annotated[str, Field(description="Domain name (e.g., 'example.com')")],
@@ -152,7 +152,7 @@ def register_domain_tools(mcp: FastMCP) -> None:
         except Exception as e:
             raise handle_oinker_error(e, f"delete URL forward {forward_id}") from e
 
-    @mcp.tool()
+    @mcp.tool(annotations={"readOnlyHint": True})
     async def domains_check_availability(
         ctx: Context,
         domain: Annotated[str, Field(description="Domain name to check (e.g., 'example.com')")],
@@ -171,7 +171,7 @@ def register_domain_tools(mcp: FastMCP) -> None:
         except Exception as e:
             raise handle_oinker_error(e, f"check availability for {domain}") from e
 
-    @mcp.tool()
+    @mcp.tool(annotations={"readOnlyHint": True})
     async def domains_get_glue_records(
         ctx: Context,
         domain: Annotated[str, Field(description="Domain name (e.g., 'example.com')")],
@@ -192,7 +192,7 @@ def register_domain_tools(mcp: FastMCP) -> None:
         except Exception as e:
             raise handle_oinker_error(e, f"get glue records for {domain}") from e
 
-    @mcp.tool()
+    @mcp.tool(annotations={"idempotentHint": False})
     async def domains_create_glue_record(
         ctx: Context,
         domain: Annotated[str, Field(description="Domain name (e.g., 'example.com')")],
@@ -211,7 +211,7 @@ def register_domain_tools(mcp: FastMCP) -> None:
         except Exception as e:
             raise handle_oinker_error(e, f"create glue record {subdomain}.{domain}") from e
 
-    @mcp.tool()
+    @mcp.tool(annotations={"idempotentHint": True})
     async def domains_update_glue_record(
         ctx: Context,
         domain: Annotated[str, Field(description="Domain name (e.g., 'example.com')")],
@@ -230,7 +230,7 @@ def register_domain_tools(mcp: FastMCP) -> None:
         except Exception as e:
             raise handle_oinker_error(e, f"update glue record {subdomain}.{domain}") from e
 
-    @mcp.tool()
+    @mcp.tool(annotations={"destructiveHint": True})
     async def domains_delete_glue_record(
         ctx: Context,
         domain: Annotated[str, Field(description="Domain name (e.g., 'example.com')")],

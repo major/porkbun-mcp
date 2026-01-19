@@ -25,7 +25,7 @@ def _to_ssl_bundle(bundle: Any) -> SSLBundle:
 def register_ssl_tools(mcp: FastMCP) -> None:
     """Register SSL tools with the MCP server."""
 
-    @mcp.tool()
+    @mcp.tool(annotations={"readOnlyHint": True})
     async def ssl_retrieve(
         ctx: Context,
         domain: Annotated[str, Field(description="Domain name (e.g., 'example.com')")],

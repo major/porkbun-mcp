@@ -16,7 +16,7 @@ if TYPE_CHECKING:
 def register_ssl_resources(mcp: FastMCP) -> None:
     """Register SSL resources with the MCP server."""
 
-    @mcp.resource("porkbun://ssl/{domain}")
+    @mcp.resource("porkbun://ssl/{domain}", annotations={"readOnlyHint": True})
     async def ssl_resource(ctx: Context, domain: str) -> SSLBundle:
         """Get SSL certificate bundle for a domain."""
         piglet = get_piglet(ctx)

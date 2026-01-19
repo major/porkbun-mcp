@@ -9,6 +9,8 @@ from unittest.mock import AsyncMock, MagicMock
 import pytest
 from fastmcp import Context, FastMCP
 
+from porkbun_mcp.server import AppContext
+
 
 def get_tool_fn(mcp: FastMCP, name: str) -> Callable[..., Coroutine[Any, Any, Any]]:
     """Get a tool function from FastMCP by name."""
@@ -62,13 +64,13 @@ def mock_piglet() -> AsyncMock:
 
 
 @pytest.fixture
-def mock_lifespan_context(mock_piglet: AsyncMock) -> dict[str, Any]:
-    """Mock lifespan context dict."""
-    return {"piglet": mock_piglet}
+def mock_lifespan_context(mock_piglet: AsyncMock) -> AppContext:
+    """Mock lifespan context with typed AppContext."""
+    return AppContext(piglet=mock_piglet)
 
 
 @pytest.fixture
-def mock_context(mock_lifespan_context: dict[str, Any]) -> MagicMock:
+def mock_context(mock_lifespan_context: AppContext) -> MagicMock:
     """Mock FastMCP Context."""
     ctx = MagicMock(spec=Context)
     ctx.request_context = MagicMock()

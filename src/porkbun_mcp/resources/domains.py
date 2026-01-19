@@ -16,7 +16,7 @@ if TYPE_CHECKING:
 def register_domain_resources(mcp: FastMCP) -> None:
     """Register domain resources with the MCP server."""
 
-    @mcp.resource("porkbun://domains")
+    @mcp.resource("porkbun://domains", annotations={"readOnlyHint": True})
     async def domains_resource(ctx: Context) -> list[DomainInfo]:
         """List all domains in your Porkbun account."""
         piglet = get_piglet(ctx)
