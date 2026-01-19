@@ -39,7 +39,7 @@ def register_dnssec_tools(mcp: FastMCP) -> None:
         except Exception as e:
             raise handle_oinker_error(e, f"list DNSSEC records for {domain}") from e
 
-    @mcp.tool()
+    @mcp.tool(annotations={"idempotentHint": False})
     async def dnssec_create(
         ctx: Context,
         domain: Annotated[str, Field(description="Domain name (e.g., 'example.com')")],

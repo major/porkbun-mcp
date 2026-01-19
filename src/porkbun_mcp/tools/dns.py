@@ -97,7 +97,7 @@ def register_dns_tools(mcp: FastMCP) -> None:
                 e, f"get {record_type} records for {subdomain or 'root'}.{domain}"
             ) from e
 
-    @mcp.tool()
+    @mcp.tool(annotations={"idempotentHint": False})
     async def dns_create(
         ctx: Context,
         domain: Annotated[str, Field(description="Domain name (e.g., 'example.com')")],
@@ -133,7 +133,7 @@ def register_dns_tools(mcp: FastMCP) -> None:
         except Exception as e:
             raise handle_oinker_error(e, f"create {record_type} record for {domain}") from e
 
-    @mcp.tool()
+    @mcp.tool(annotations={"idempotentHint": True})
     async def dns_edit(
         ctx: Context,
         domain: Annotated[str, Field(description="Domain name (e.g., 'example.com')")],
@@ -161,7 +161,7 @@ def register_dns_tools(mcp: FastMCP) -> None:
         except Exception as e:
             raise handle_oinker_error(e, f"edit DNS record {record_id}") from e
 
-    @mcp.tool()
+    @mcp.tool(annotations={"idempotentHint": True})
     async def dns_edit_by_name_type(
         ctx: Context,
         domain: Annotated[str, Field(description="Domain name (e.g., 'example.com')")],

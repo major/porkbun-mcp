@@ -66,7 +66,7 @@ def register_domain_tools(mcp: FastMCP) -> None:
         except Exception as e:
             raise handle_oinker_error(e, f"get nameservers for {domain}") from e
 
-    @mcp.tool()
+    @mcp.tool(annotations={"idempotentHint": True})
     async def domains_update_nameservers(
         ctx: Context,
         domain: Annotated[str, Field(description="Domain name (e.g., 'example.com')")],
@@ -105,7 +105,7 @@ def register_domain_tools(mcp: FastMCP) -> None:
         except Exception as e:
             raise handle_oinker_error(e, f"get URL forwards for {domain}") from e
 
-    @mcp.tool()
+    @mcp.tool(annotations={"idempotentHint": False})
     async def domains_add_url_forward(
         ctx: Context,
         domain: Annotated[str, Field(description="Domain name (e.g., 'example.com')")],
@@ -192,7 +192,7 @@ def register_domain_tools(mcp: FastMCP) -> None:
         except Exception as e:
             raise handle_oinker_error(e, f"get glue records for {domain}") from e
 
-    @mcp.tool()
+    @mcp.tool(annotations={"idempotentHint": False})
     async def domains_create_glue_record(
         ctx: Context,
         domain: Annotated[str, Field(description="Domain name (e.g., 'example.com')")],
@@ -211,7 +211,7 @@ def register_domain_tools(mcp: FastMCP) -> None:
         except Exception as e:
             raise handle_oinker_error(e, f"create glue record {subdomain}.{domain}") from e
 
-    @mcp.tool()
+    @mcp.tool(annotations={"idempotentHint": True})
     async def domains_update_glue_record(
         ctx: Context,
         domain: Annotated[str, Field(description="Domain name (e.g., 'example.com')")],
