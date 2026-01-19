@@ -6,7 +6,7 @@ from fastmcp import Context
 from fastmcp.exceptions import ToolError
 from pydantic import Field
 
-from porkbun_mcp.context import get_piglet
+from porkbun_mcp.context import get_piglet, require_writes
 from porkbun_mcp.errors import handle_oinker_error
 from porkbun_mcp.models import DNSRecord, DNSRecordCreated, DNSRecordDeleted
 
@@ -117,6 +117,7 @@ def register_dns_tools(mcp: "FastMCP") -> None:
         ] = None,
     ) -> DNSRecordCreated:
         """Create a new DNS record."""
+        require_writes(ctx)
         record_cls = _get_dns_record_class(record_type)
         piglet = get_piglet(ctx)
 
@@ -145,6 +146,7 @@ def register_dns_tools(mcp: "FastMCP") -> None:
         priority: Annotated[int | None, Field(ge=0, description="New priority")] = None,
     ) -> DNSRecordCreated:
         """Edit a DNS record by ID."""
+        require_writes(ctx)
         record_cls = _get_dns_record_class(record_type)
         piglet = get_piglet(ctx)
 
@@ -176,6 +178,7 @@ def register_dns_tools(mcp: "FastMCP") -> None:
         notes: Annotated[str | None, Field(description="New notes")] = None,
     ) -> DNSRecordDeleted:
         """Edit all DNS records matching subdomain and type."""
+        require_writes(ctx)
         piglet = get_piglet(ctx)
 
         try:
@@ -205,6 +208,7 @@ def register_dns_tools(mcp: "FastMCP") -> None:
         record_id: Annotated[str, Field(description="DNS record ID to delete")],
     ) -> DNSRecordDeleted:
         """Delete a DNS record by ID."""
+        require_writes(ctx)
         piglet = get_piglet(ctx)
 
         try:
@@ -221,6 +225,7 @@ def register_dns_tools(mcp: "FastMCP") -> None:
         subdomain: Annotated[str | None, Field(description="Subdomain (None for root)")] = None,
     ) -> DNSRecordDeleted:
         """Delete DNS records by subdomain and type."""
+        require_writes(ctx)
         piglet = get_piglet(ctx)
 
         try:
