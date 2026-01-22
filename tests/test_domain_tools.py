@@ -34,7 +34,7 @@ class TestDomainsList:
         """domains_list should return list of DomainInfo models."""
         mock_piglet.domains.list.return_value = [make_mock_domain()]
         mcp = _register_domains()
-        tool_fn = get_tool_fn(mcp, "domains_list")
+        tool_fn = await get_tool_fn(mcp, "domains_list")
 
         result = await tool_fn(mock_context)
 
@@ -56,7 +56,7 @@ class TestDomainsGetNameservers:
             "ns2.porkbun.com",
         ]
         mcp = _register_domains()
-        tool_fn = get_tool_fn(mcp, "domains_get_nameservers")
+        tool_fn = await get_tool_fn(mcp, "domains_get_nameservers")
 
         result = await tool_fn(mock_context, domain="example.com")
 
@@ -73,7 +73,7 @@ class TestDomainsUpdateNameservers:
     ) -> None:
         """domains_update_nameservers should return updated Nameservers."""
         mcp = _register_domains()
-        tool_fn = get_tool_fn(mcp, "domains_update_nameservers")
+        tool_fn = await get_tool_fn(mcp, "domains_update_nameservers")
 
         result = await tool_fn(
             mock_context,
@@ -99,7 +99,7 @@ class TestDomainsCheckAvailability:
         mock_result.premium = False
         mock_piglet.domains.check.return_value = mock_result
         mcp = _register_domains()
-        tool_fn = get_tool_fn(mcp, "domains_check_availability")
+        tool_fn = await get_tool_fn(mcp, "domains_check_availability")
 
         result = await tool_fn(mock_context, domain="available-domain.com")
 
@@ -125,7 +125,7 @@ class TestDomainsGetUrlForwards:
         mock_forward.wildcard = False
         mock_piglet.domains.get_url_forwards.return_value = [mock_forward]
         mcp = _register_domains()
-        tool_fn = get_tool_fn(mcp, "domains_get_url_forwards")
+        tool_fn = await get_tool_fn(mcp, "domains_get_url_forwards")
 
         result = await tool_fn(mock_context, domain="example.com")
 
@@ -142,7 +142,7 @@ class TestDomainsAddUrlForward:
     ) -> None:
         """domains_add_url_forward should create a forwarding rule."""
         mcp = _register_domains()
-        tool_fn = get_tool_fn(mcp, "domains_add_url_forward")
+        tool_fn = await get_tool_fn(mcp, "domains_add_url_forward")
 
         result = await tool_fn(
             mock_context,
@@ -164,7 +164,7 @@ class TestDomainsDeleteUrlForward:
     ) -> None:
         """domains_delete_url_forward should delete a forwarding rule."""
         mcp = _register_domains()
-        tool_fn = get_tool_fn(mcp, "domains_delete_url_forward")
+        tool_fn = await get_tool_fn(mcp, "domains_delete_url_forward")
 
         result = await tool_fn(mock_context, domain="example.com", forward_id="123")
 
@@ -186,7 +186,7 @@ class TestDomainsGetGlueRecords:
         mock_glue.ipv6 = ["2001:db8::1"]
         mock_piglet.domains.get_glue_records.return_value = [mock_glue]
         mcp = _register_domains()
-        tool_fn = get_tool_fn(mcp, "domains_get_glue_records")
+        tool_fn = await get_tool_fn(mcp, "domains_get_glue_records")
 
         result = await tool_fn(mock_context, domain="example.com")
 
@@ -203,7 +203,7 @@ class TestDomainsCreateGlueRecord:
     ) -> None:
         """domains_create_glue_record should create a glue record."""
         mcp = _register_domains()
-        tool_fn = get_tool_fn(mcp, "domains_create_glue_record")
+        tool_fn = await get_tool_fn(mcp, "domains_create_glue_record")
 
         result = await tool_fn(
             mock_context,
@@ -225,7 +225,7 @@ class TestDomainsUpdateGlueRecord:
     ) -> None:
         """domains_update_glue_record should update a glue record."""
         mcp = _register_domains()
-        tool_fn = get_tool_fn(mcp, "domains_update_glue_record")
+        tool_fn = await get_tool_fn(mcp, "domains_update_glue_record")
 
         result = await tool_fn(
             mock_context,
@@ -247,7 +247,7 @@ class TestDomainsDeleteGlueRecord:
     ) -> None:
         """domains_delete_glue_record should delete a glue record."""
         mcp = _register_domains()
-        tool_fn = get_tool_fn(mcp, "domains_delete_glue_record")
+        tool_fn = await get_tool_fn(mcp, "domains_delete_glue_record")
 
         result = await tool_fn(mock_context, domain="example.com", subdomain="ns1")
 

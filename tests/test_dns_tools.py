@@ -28,7 +28,7 @@ class TestDNSList:
         """dns_list should return list of DNSRecord models."""
         mock_piglet.dns.list.return_value = [make_mock_dns_record()]
         mcp = _register_dns()
-        tool_fn = get_tool_fn(mcp, "dns_list")
+        tool_fn = await get_tool_fn(mcp, "dns_list")
 
         result = await tool_fn(mock_context, domain="example.com")
 
@@ -43,7 +43,7 @@ class TestDNSList:
         """dns_list should return empty list when no records."""
         mock_piglet.dns.list.return_value = []
         mcp = _register_dns()
-        tool_fn = get_tool_fn(mcp, "dns_list")
+        tool_fn = await get_tool_fn(mcp, "dns_list")
 
         result = await tool_fn(mock_context, domain="example.com")
 
@@ -59,7 +59,7 @@ class TestDNSGet:
         """dns_get should return a single DNSRecord."""
         mock_piglet.dns.get.return_value = make_mock_dns_record()
         mcp = _register_dns()
-        tool_fn = get_tool_fn(mcp, "dns_get")
+        tool_fn = await get_tool_fn(mcp, "dns_get")
 
         result = await tool_fn(mock_context, domain="example.com", record_id="12345")
 
@@ -70,7 +70,7 @@ class TestDNSGet:
         """dns_get should raise ToolError when record not found."""
         mock_piglet.dns.get.return_value = None
         mcp = _register_dns()
-        tool_fn = get_tool_fn(mcp, "dns_get")
+        tool_fn = await get_tool_fn(mcp, "dns_get")
 
         with pytest.raises(ToolError, match="not found"):
             await tool_fn(mock_context, domain="example.com", record_id="99999")
@@ -85,7 +85,7 @@ class TestDNSCreate:
         """dns_create should return DNSRecordCreated on success."""
         mock_piglet.dns.create.return_value = "12345"
         mcp = _register_dns()
-        tool_fn = get_tool_fn(mcp, "dns_create")
+        tool_fn = await get_tool_fn(mcp, "dns_create")
 
         result = await tool_fn(
             mock_context,
@@ -101,7 +101,7 @@ class TestDNSCreate:
     async def test_dns_create_invalid_type(self, mock_context: MagicMock) -> None:
         """dns_create should raise ToolError for invalid record type."""
         mcp = _register_dns()
-        tool_fn = get_tool_fn(mcp, "dns_create")
+        tool_fn = await get_tool_fn(mcp, "dns_create")
 
         with pytest.raises(ToolError, match="Unknown record type"):
             await tool_fn(
@@ -121,7 +121,7 @@ class TestDNSGetByNameType:
         """dns_get_by_name_type should return matching records."""
         mock_piglet.dns.get_by_name_type.return_value = [make_mock_dns_record()]
         mcp = _register_dns()
-        tool_fn = get_tool_fn(mcp, "dns_get_by_name_type")
+        tool_fn = await get_tool_fn(mcp, "dns_get_by_name_type")
 
         result = await tool_fn(mock_context, domain="example.com", record_type="A", subdomain="www")
 
@@ -135,7 +135,7 @@ class TestDNSGetByNameType:
         """dns_get_by_name_type should handle root domain (None subdomain)."""
         mock_piglet.dns.get_by_name_type.return_value = []
         mcp = _register_dns()
-        tool_fn = get_tool_fn(mcp, "dns_get_by_name_type")
+        tool_fn = await get_tool_fn(mcp, "dns_get_by_name_type")
 
         result = await tool_fn(mock_context, domain="example.com", record_type="A")
 
@@ -149,7 +149,7 @@ class TestDNSEdit:
     async def test_dns_edit_success(self, mock_context: MagicMock, mock_piglet: AsyncMock) -> None:
         """dns_edit should return DNSRecordCreated with updated status."""
         mcp = _register_dns()
-        tool_fn = get_tool_fn(mcp, "dns_edit")
+        tool_fn = await get_tool_fn(mcp, "dns_edit")
 
         result = await tool_fn(
             mock_context,
@@ -173,7 +173,7 @@ class TestDNSEditByNameType:
     ) -> None:
         """dns_edit_by_name_type should update matching records."""
         mcp = _register_dns()
-        tool_fn = get_tool_fn(mcp, "dns_edit_by_name_type")
+        tool_fn = await get_tool_fn(mcp, "dns_edit_by_name_type")
 
         result = await tool_fn(
             mock_context,
@@ -196,7 +196,7 @@ class TestDNSDelete:
     ) -> None:
         """dns_delete should return DNSRecordDeleted on success."""
         mcp = _register_dns()
-        tool_fn = get_tool_fn(mcp, "dns_delete")
+        tool_fn = await get_tool_fn(mcp, "dns_delete")
 
         result = await tool_fn(mock_context, domain="example.com", record_id="12345")
 
@@ -213,7 +213,7 @@ class TestDNSDeleteByNameType:
     ) -> None:
         """dns_delete_by_name_type should delete matching records."""
         mcp = _register_dns()
-        tool_fn = get_tool_fn(mcp, "dns_delete_by_name_type")
+        tool_fn = await get_tool_fn(mcp, "dns_delete_by_name_type")
 
         result = await tool_fn(mock_context, domain="example.com", record_type="A", subdomain="www")
 

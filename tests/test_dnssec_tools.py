@@ -41,7 +41,7 @@ class TestDNSSECList:
         """dnssec_list should return list of DNSSECRecord models."""
         mock_piglet.dnssec.list.return_value = [make_mock_dnssec_record()]
         mcp = _register_dnssec()
-        tool_fn = get_tool_fn(mcp, "dnssec_list")
+        tool_fn = await get_tool_fn(mcp, "dnssec_list")
 
         result = await tool_fn(mock_context, domain="example.com")
 
@@ -55,7 +55,7 @@ class TestDNSSECList:
         """dnssec_list should return empty list when no records."""
         mock_piglet.dnssec.list.return_value = []
         mcp = _register_dnssec()
-        tool_fn = get_tool_fn(mcp, "dnssec_list")
+        tool_fn = await get_tool_fn(mcp, "dnssec_list")
 
         result = await tool_fn(mock_context, domain="example.com")
 
@@ -70,7 +70,7 @@ class TestDNSSECCreate:
     ) -> None:
         """dnssec_create should return DNSSECRecord on success."""
         mcp = _register_dnssec()
-        tool_fn = get_tool_fn(mcp, "dnssec_create")
+        tool_fn = await get_tool_fn(mcp, "dnssec_create")
 
         result = await tool_fn(
             mock_context,
@@ -95,7 +95,7 @@ class TestDNSSECDelete:
     ) -> None:
         """dnssec_delete should return DNSRecordDeleted on success."""
         mcp = _register_dnssec()
-        tool_fn = get_tool_fn(mcp, "dnssec_delete")
+        tool_fn = await get_tool_fn(mcp, "dnssec_delete")
 
         result = await tool_fn(mock_context, domain="example.com", key_tag="12345")
 
