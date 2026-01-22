@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 This project uses [Semantic Versioning](https://semver.org/) and [Conventional Commits](https://www.conventionalcommits.org/).
 
+## v1.1.0 (2026-01-22)
+
+### Feat
+
+- upgrade to FastMCP v3.0.0b1
+
 ## v1.0.0 (2026-01-19)
 
 ### Feat
