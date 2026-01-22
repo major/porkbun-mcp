@@ -27,7 +27,13 @@ def register_pricing_tools(mcp: "FastMCP") -> None:
 
     @mcp.tool(annotations={"readOnlyHint": True})
     async def pricing_get(ctx: Context) -> list[TLDPricing]:  # noqa: ARG001
-        """Get pricing for all available TLDs."""
+        """Get pricing for all available TLDs.
+
+        PREFERRED for price lookups - no rate limits, returns all TLD prices at once.
+        Use this FIRST when users ask about domain costs, then filter by TLD.
+        Only use domains_check_availability when you need to verify a specific
+        domain is actually available for purchase.
+        """
         try:
             pricing_dict = await get_pricing()
             return [_to_tld_pricing(tld, p) for tld, p in pricing_dict.items()]

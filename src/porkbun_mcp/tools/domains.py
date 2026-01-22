@@ -160,7 +160,12 @@ def register_domain_tools(mcp: "FastMCP") -> None:
         ctx: Context,
         domain: Annotated[str, Field(description="Domain name to check (e.g., 'example.com')")],
     ) -> DomainAvailability:
-        """Check domain availability and pricing."""
+        """Check domain availability and pricing.
+
+        WARNING: Heavily rate-limited (1 request per 10 seconds).
+        For price comparisons, use pricing_get first (no rate limits).
+        Only use this tool when you need to confirm a specific domain is available.
+        """
         piglet = get_piglet(ctx)
 
         try:
