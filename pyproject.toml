@@ -16,7 +16,7 @@ classifiers = [
     "Topic :: Internet :: Name Service (DNS)",
     "Typing :: Typed",
 ]
-dependencies = ["fastmcp>=2.14.3", "oinker>=0.1.1", "pydantic-settings>=2.0.0"]
+dependencies = ["fastmcp>=3.0.0b1", "oinker>=0.1.1", "pydantic-settings>=2.0.0"]
 
 [project.urls]
 Homepage = "https://github.com/major/porkbun-mcp"

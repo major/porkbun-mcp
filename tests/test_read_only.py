@@ -66,7 +66,7 @@ class TestDNSWriteToolsBlocked:
         """dns_create raises ToolError in read-only mode."""
         mcp = FastMCP("test")
         register_dns_tools(mcp)
-        tool_fn = get_tool_fn(mcp, "dns_create")
+        tool_fn = await get_tool_fn(mcp, "dns_create")
 
         with pytest.raises(ToolError, match="read-only"):
             await tool_fn(
@@ -80,7 +80,7 @@ class TestDNSWriteToolsBlocked:
         """dns_edit raises ToolError in read-only mode."""
         mcp = FastMCP("test")
         register_dns_tools(mcp)
-        tool_fn = get_tool_fn(mcp, "dns_edit")
+        tool_fn = await get_tool_fn(mcp, "dns_edit")
 
         with pytest.raises(ToolError, match="read-only"):
             await tool_fn(
@@ -95,7 +95,7 @@ class TestDNSWriteToolsBlocked:
         """dns_delete raises ToolError in read-only mode."""
         mcp = FastMCP("test")
         register_dns_tools(mcp)
-        tool_fn = get_tool_fn(mcp, "dns_delete")
+        tool_fn = await get_tool_fn(mcp, "dns_delete")
 
         with pytest.raises(ToolError, match="read-only"):
             await tool_fn(read_only_context, domain="example.com", record_id="123")
@@ -108,7 +108,7 @@ class TestDomainWriteToolsBlocked:
         """domains_update_nameservers raises ToolError in read-only mode."""
         mcp = FastMCP("test")
         register_domain_tools(mcp)
-        tool_fn = get_tool_fn(mcp, "domains_update_nameservers")
+        tool_fn = await get_tool_fn(mcp, "domains_update_nameservers")
 
         with pytest.raises(ToolError, match="read-only"):
             await tool_fn(
@@ -121,7 +121,7 @@ class TestDomainWriteToolsBlocked:
         """domains_add_url_forward raises ToolError in read-only mode."""
         mcp = FastMCP("test")
         register_domain_tools(mcp)
-        tool_fn = get_tool_fn(mcp, "domains_add_url_forward")
+        tool_fn = await get_tool_fn(mcp, "domains_add_url_forward")
 
         with pytest.raises(ToolError, match="read-only"):
             await tool_fn(
@@ -138,7 +138,7 @@ class TestDNSSECWriteToolsBlocked:
         """dnssec_create raises ToolError in read-only mode."""
         mcp = FastMCP("test")
         register_dnssec_tools(mcp)
-        tool_fn = get_tool_fn(mcp, "dnssec_create")
+        tool_fn = await get_tool_fn(mcp, "dnssec_create")
 
         with pytest.raises(ToolError, match="read-only"):
             await tool_fn(
@@ -154,7 +154,7 @@ class TestDNSSECWriteToolsBlocked:
         """dnssec_delete raises ToolError in read-only mode."""
         mcp = FastMCP("test")
         register_dnssec_tools(mcp)
-        tool_fn = get_tool_fn(mcp, "dnssec_delete")
+        tool_fn = await get_tool_fn(mcp, "dnssec_delete")
 
         with pytest.raises(ToolError, match="read-only"):
             await tool_fn(read_only_context, domain="example.com", key_tag="12345")
@@ -170,7 +170,7 @@ class TestReadToolsAlwaysWork:
         mock_piglet.dns.list.return_value = []
         mcp = FastMCP("test")
         register_dns_tools(mcp)
-        tool_fn = get_tool_fn(mcp, "dns_list")
+        tool_fn = await get_tool_fn(mcp, "dns_list")
 
         result = await tool_fn(read_only_context, domain="example.com")
         assert result == []
@@ -182,7 +182,7 @@ class TestReadToolsAlwaysWork:
         mock_piglet.domains.list.return_value = []
         mcp = FastMCP("test")
         register_domain_tools(mcp)
-        tool_fn = get_tool_fn(mcp, "domains_list")
+        tool_fn = await get_tool_fn(mcp, "domains_list")
 
         result = await tool_fn(read_only_context)
         assert result == []
@@ -194,7 +194,7 @@ class TestReadToolsAlwaysWork:
         mock_piglet.dnssec.list.return_value = []
         mcp = FastMCP("test")
         register_dnssec_tools(mcp)
-        tool_fn = get_tool_fn(mcp, "dnssec_list")
+        tool_fn = await get_tool_fn(mcp, "dnssec_list")
 
         result = await tool_fn(read_only_context, domain="example.com")
         assert result == []

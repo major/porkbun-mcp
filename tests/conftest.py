@@ -12,9 +12,12 @@ from fastmcp import Context, FastMCP
 from porkbun_mcp.server import AppContext
 
 
-def get_tool_fn(mcp: FastMCP, name: str) -> Callable[..., Coroutine[Any, Any, Any]]:
+async def get_tool_fn(mcp: FastMCP, name: str) -> Callable[..., Coroutine[Any, Any, Any]]:
     """Get a tool function from FastMCP by name."""
-    return mcp._tool_manager._tools[name].fn  # type: ignore[attr-defined,return-value]
+    tool = await mcp.get_tool(name)
+    if tool is None:
+        raise ValueError(f"Tool {name!r} not found")
+    return tool.fn  # type: ignore[return-value]
 
 
 @pytest.fixture
