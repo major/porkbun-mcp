@@ -40,20 +40,14 @@ src/porkbun_mcp/
 ├── config.py             # PorkbunMCPSettings (pydantic-settings)
 ├── models.py             # Pydantic response models (output schemas)
 ├── errors.py             # Oinker -> MCP error mapping
-├── tools/
-│   ├── __init__.py       # register_tools()
-│   ├── ping.py           # ping tool
-│   ├── dns.py            # DNS record tools (list, get, create, edit, delete)
-│   ├── domains.py        # Domain management tools
-│   ├── dnssec.py         # DNSSEC tools
-│   ├── ssl.py            # SSL certificate tools
-│   └── pricing.py        # TLD pricing tool
-└── resources/
-    ├── __init__.py       # register_resources()
-    ├── domains.py        # porkbun://domains
-    ├── dns.py            # porkbun://dns/{domain}
-    ├── ssl.py            # porkbun://ssl/{domain}
-    └── pricing.py        # porkbun://pricing
+└── tools/
+    ├── __init__.py       # register_tools()
+    ├── ping.py           # ping tool
+    ├── dns.py            # DNS record tools (list, get, create, edit, delete)
+    ├── domains.py        # Domain management tools
+    ├── dnssec.py         # DNSSEC tools
+    ├── ssl.py            # SSL certificate tools
+    └── pricing.py        # TLD pricing tool
 ```
 
 ## Code Style

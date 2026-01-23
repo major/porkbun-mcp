@@ -178,15 +178,6 @@ Add to your `opencode.json` configuration:
 
 - `ping` - Test API connectivity and get your public IP
 
-## Resources
-
-Browse data via MCP resources:
-
-- `porkbun://domains` - List all domains
-- `porkbun://dns/{domain}` - DNS records for a domain
-- `porkbun://ssl/{domain}` - SSL certificate bundle for a domain
-- `porkbun://pricing` - TLD pricing information
-
 ## Prompts
 
 Pre-defined workflows to guide common DNS operations:

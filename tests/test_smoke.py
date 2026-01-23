@@ -36,17 +36,6 @@ class TestServerInitialization:
             assert "domains_list" in tool_names
             assert "pricing_get" in tool_names
 
-    async def test_server_lists_resources(self) -> None:
-        """Server lists expected resources via MCP protocol."""
-        server = create_server()
-
-        async with Client(FastMCPTransport(server)) as client:
-            resources = await client.list_resources()
-            resource_uris = [str(r.uri) for r in resources]
-
-            assert any("domains" in uri for uri in resource_uris)
-            assert any("pricing" in uri for uri in resource_uris)
-
 
 class TestReadOnlyModeIntegration:
     """Smoke tests for read-only mode via MCP protocol."""
