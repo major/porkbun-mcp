@@ -37,7 +37,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - run: uv sync --dev
       - run: uv run pytest --cov-report=xml
-      - uses: codecov/codecov-action@v5
+      - uses: codecov/codecov-action@v6
         if: matrix.python-version == '3.14'
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
