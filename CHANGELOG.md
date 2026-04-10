@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 This project uses [Semantic Versioning](https://semver.org/) and [Conventional Commits](https://www.conventionalcommits.org/).
 
+## v1.1.2 (2026-04-10)
+
+### Fix
+
+- resolve ty type-check errors after dependency update
+
 ## v1.1.1 (2026-01-23)
 
 ### Refactor
