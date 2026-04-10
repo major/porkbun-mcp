@@ -8,6 +8,7 @@ from unittest.mock import AsyncMock, MagicMock
 
 import pytest
 from fastmcp import Context, FastMCP
+from fastmcp.tools.function_tool import FunctionTool
 
 from porkbun_mcp.server import AppContext
 
@@ -15,9 +16,9 @@ from porkbun_mcp.server import AppContext
 async def get_tool_fn(mcp: FastMCP, name: str) -> Callable[..., Coroutine[Any, Any, Any]]:
     """Get a tool function from FastMCP by name."""
     tool = await mcp.get_tool(name)
-    if tool is None:
-        raise ValueError(f"Tool {name!r} not found")
-    return tool.fn  # type: ignore[return-value]
+    if not isinstance(tool, FunctionTool):
+        raise TypeError(f"Tool {name!r} not found or not a FunctionTool")
+    return tool.fn
 
 
 @pytest.fixture

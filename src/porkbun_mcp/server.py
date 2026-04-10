@@ -61,6 +61,6 @@ Tool selection:
     register_prompts(mcp)
 
     if get_muddy is not None:
-        mcp._get_muddy_override = get_muddy  # type: ignore[attr-defined]
+        mcp._get_muddy_override = get_muddy  # ty: ignore[unresolved-attribute]
 
     return mcp

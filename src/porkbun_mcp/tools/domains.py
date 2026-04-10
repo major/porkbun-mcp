@@ -1,6 +1,6 @@
 """Domain management tools for the Porkbun MCP server."""
 
-from typing import TYPE_CHECKING, Annotated
+from typing import TYPE_CHECKING, Annotated, Literal
 
 from fastmcp import Context
 from fastmcp.exceptions import ToolError
@@ -113,7 +113,8 @@ def register_domain_tools(mcp: "FastMCP") -> None:
         location: Annotated[str, Field(description="Destination URL")],
         subdomain: Annotated[str | None, Field(description="Subdomain (None for root)")] = None,
         forward_type: Annotated[
-            str, Field(description="Redirect type: 'temporary' or 'permanent'")
+            Literal["temporary", "permanent"],
+            Field(description="Redirect type: 'temporary' or 'permanent'"),
         ] = "temporary",
         include_path: Annotated[bool, Field(description="Include URI path in redirect")] = False,
         wildcard: Annotated[bool, Field(description="Forward all subdomains")] = False,
@@ -127,7 +128,7 @@ def register_domain_tools(mcp: "FastMCP") -> None:
 
             forward = URLForwardCreate(
                 location=location,
-                type=forward_type,  # type: ignore[arg-type]
+                type=forward_type,
                 subdomain=subdomain,
                 include_path=include_path,
                 wildcard=wildcard,
