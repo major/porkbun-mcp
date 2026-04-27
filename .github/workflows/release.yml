@@ -39,7 +39,7 @@ jobs:
         run: git reset --hard ${{ github.sha }}
 
       - name: Set up uv
-        uses: astral-sh/setup-uv@v7
+        uses: astral-sh/setup-uv@v8.1.0
 
       - name: Install commitizen
         run: uv tool install commitizen
@@ -103,7 +103,7 @@ jobs:
           ref: ${{ needs.release.outputs.tag }}
 
       - name: Set up uv
-        uses: astral-sh/setup-uv@v7
+        uses: astral-sh/setup-uv@v8.1.0
 
       - name: Build package
         run: uv build
@@ -145,7 +145,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up uv
-        uses: astral-sh/setup-uv@v7
+        uses: astral-sh/setup-uv@v8.1.0
 
       - name: Build package
         run: uv build
